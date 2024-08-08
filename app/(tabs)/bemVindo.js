@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link, useRouter } from "expo-router";
 import {
   Text,
   View,
@@ -13,25 +14,44 @@ export default function CompRegistro() {
   const [nome, setNome] = useState("");
   const [dataNascimento, setDataNascimento] = useState("");
 
+  const router = useRouter();
+
   function handleSignIn() {
     const data = {
       nome,
       dataNascimento,
     };
     console.log(data);
+    if (
+      nome == null ||
+      nome == "" ||
+      dataNascimento == null ||
+      dataNascimento == ""
+    ) {
+      alert("Preencha todos os campos!");
+    } else {
+      router.push("/tipoConsumo");
+    }
   }
 
   const handleDateChange = (text) => {
     // Remove caracteres não numéricos
-    const formattedText = text.replace(/[^0-9]/g, '');
-    
+    const formattedText = text.replace(/[^0-9]/g, "");
+
     //FORMATAÇÃO
     if (formattedText.length <= 2) {
       setDataNascimento(formattedText);
     } else if (formattedText.length <= 4) {
-      setDataNascimento(`${formattedText.slice(0, 2)}/${formattedText.slice(2)}`);
+      setDataNascimento(
+        `${formattedText.slice(0, 2)}/${formattedText.slice(2)}`
+      );
     } else {
-      setDataNascimento(`${formattedText.slice(0, 2)}/${formattedText.slice(2, 4)}/${formattedText.slice(4, 8)}`);
+      setDataNascimento(
+        `${formattedText.slice(0, 2)}/${formattedText.slice(
+          2,
+          4
+        )}/${formattedText.slice(4, 8)}`
+      );
     }
   };
 

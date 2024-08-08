@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import {
   Text,
   View,
@@ -14,16 +14,23 @@ export default function CompRegistro() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
+  const router = useRouter();
+
   function handleSignIn() {
     const data = {
       email,
       senha,
     };
     console.log(data);
+    if (email == null || email == "" || senha == null || senha == "") {
+      alert("Preencha todos os campos!");
+    } else {
+      router.push("/bemVindo");
+    }
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor:"#73AA9D" }}>
+    <View style={{ flex: 1, backgroundColor: "#73AA9D" }}>
       <View style={style.container}>
         <TextInput
           style={style.input}
@@ -41,12 +48,9 @@ export default function CompRegistro() {
           placeholderTextColor="#888"
           secureTextEntry={true}
         />
-
-        <Link href = "/bemVindo" asChild>
-        <TouchableOpacity style={style.button} onPress={handleSignIn}>
-          <Text style={style.buttonText}>Entrar</Text>
-        </TouchableOpacity>
-        </Link>
+          <TouchableOpacity style={style.button} onPress={handleSignIn}>
+            <Text style={style.buttonText}>Entrar</Text>
+          </TouchableOpacity>
       </View>
       <View style={style.footer}>
         <Image

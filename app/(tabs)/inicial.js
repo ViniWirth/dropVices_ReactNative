@@ -5,8 +5,7 @@ import React from "react";
 import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import style from "../../styles/style";
 
-export default function Index() {
-
+export default function inicial() {
   //const var = axios.get(url, data, config);
 
   return (
@@ -36,9 +35,9 @@ export default function Index() {
         }}
       >
         <Link href="/login" asChild>
-        <TouchableOpacity style={style.button}>
-          <Text style={style.buttonText}>Entrar</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={style.button}>
+            <Text style={style.buttonText}>Entrar</Text>
+          </TouchableOpacity>
         </Link>
         <Text
           style={{

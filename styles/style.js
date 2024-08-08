@@ -55,6 +55,7 @@ export default StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     fontFamily: "Libre Baskerville",
+    textAlign: "center",
   },
   logoCima: {
     alignItems: "center",
@@ -84,5 +85,22 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 10,
+  },
+  buttonTipoConsumo: {
+    width: "75%",
+    height: 80,
+    backgroundColor: "#66A394",
+    margin: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 30,
+    shadowColor: "#000", shadowOffset: { width: 0, height: 2, }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5,shadowColor: "#000", shadowOffset: { width: 0, height: 2, }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5,
+  
+  },
+  buttonTextTipoConsumo: {
+    color: "white",
+    fontSize: 25,
+    fontFamily: "Libre Baskerville",
+    textAlign: "center",
   },
 });
