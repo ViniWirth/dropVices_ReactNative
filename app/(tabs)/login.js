@@ -10,13 +10,13 @@ import {
 } from "react-native";
 import style from "../../styles/style";
 
-export default function CompRegistro() {
+export default function CompLogin() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
   const router = useRouter();
 
-  function handleSignIn() {
+  function handleLogin() {
     const data = {
       email,
       senha,
@@ -48,7 +48,7 @@ export default function CompRegistro() {
           placeholderTextColor="#888"
           secureTextEntry={true}
         />
-          <TouchableOpacity style={style.button} onPress={handleSignIn}>
+          <TouchableOpacity style={style.button} onPress={handleLogin}>
             <Text style={style.buttonText}>Entrar</Text>
           </TouchableOpacity>
       </View>

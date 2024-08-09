@@ -10,13 +10,13 @@ import {
 } from "react-native";
 import style from "../../styles/style";
 
-export default function CompRegistro() {
+export default function bemVindo() {
   const [nome, setNome] = useState("");
   const [dataNascimento, setDataNascimento] = useState("");
 
   const router = useRouter();
 
-  function handleSignIn() {
+  function handleBemVindo() {
     const data = {
       nome,
       dataNascimento,
@@ -100,7 +100,7 @@ export default function CompRegistro() {
           maxLength={10}
         />
 
-        <TouchableOpacity style={style.buttonAvancar} onPress={handleSignIn}>
+        <TouchableOpacity style={style.buttonAvancar} onPress={handleBemVindo}>
           <Text style={style.buttonText}>Avançar</Text>
         </TouchableOpacity>
       </View>

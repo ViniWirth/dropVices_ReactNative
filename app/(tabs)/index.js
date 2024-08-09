@@ -1,16 +1,21 @@
-import React, { useState } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import React, { useState, useEffect } from "react";
+import { Text, View, StyleSheet, TextInput, TouchableOpacity, Image } from "react-native";
 import style from "../../styles/style";
 import CompTelaCarregamento from "../../components/telaCarregamento";
+import { useRouter } from "expo-router";
 
 export default function Index() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      router.push("/inicial");
+    }, 3000);
+
+    // Limpeza do temporizador quando o componente for desmontado
+    return () => clearTimeout(timer);
+  }, [router]);
+
   return (
     <View
       style={{

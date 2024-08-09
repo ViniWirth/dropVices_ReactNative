@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Text, View, TouchableOpacity, Image } from "react-native";
+import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import style from "../../styles/style";
+import { Link } from "expo-router";
 
 export default function TipoConsumo() {
   const [tipoConsumo, setTipoConsumo] = useState("");
-
 
   //O TIPO CONSUMO SÓ MUDA DEPOIS DO PROXIMO CLIQUE
   function enviaTipoConsumo() {
@@ -27,29 +27,33 @@ export default function TipoConsumo() {
       </View>
 
       <View style={style.container}>
-        <TouchableOpacity 
-          style={style.buttonTipoConsumo} 
-          onPress={() => {
-            setTipoConsumo("cigarro");
-            enviaTipoConsumo();
-          }}
-        >
-          <Text style={style.buttonTextTipoConsumo}>
-            Cigarros convencionais
-          </Text>
-        </TouchableOpacity>
+        <Link href="/cigConvencional" asChild>
+          <TouchableOpacity
+            style={styles.buttonTipoConsumo}
+            onPress={() => {
+              setTipoConsumo("cigarro");
+              enviaTipoConsumo();
+            }}
+          >
+            <Text style={styles.buttonTextTipoConsumo}>
+              Cigarros convencionais
+            </Text>
+          </TouchableOpacity>
+        </Link>
 
-        <TouchableOpacity 
-          style={style.buttonTipoConsumo} 
-          onPress={() => {
-            setTipoConsumo("eletronico");
-            enviaTipoConsumo();
-          }}
-        >
-          <Text style={style.buttonTextTipoConsumo}>
-            Cigarros eletrônicos
-          </Text>
-        </TouchableOpacity>
+        <Link href="cigEletronico" asChild>
+          <TouchableOpacity
+            style={styles.buttonTipoConsumo}
+            onPress={() => {
+              setTipoConsumo("eletronico");
+              enviaTipoConsumo();
+            }}
+          >
+            <Text style={styles.buttonTextTipoConsumo}>
+              Cigarros eletrônicos
+            </Text>
+          </TouchableOpacity>
+        </Link>
       </View>
 
       <View style={style.footer}>
@@ -64,3 +68,31 @@ export default function TipoConsumo() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  buttonTipoConsumo: {
+    width: "75%",
+    height: 80,
+    backgroundColor: "#66A394",
+    margin: 30,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 30,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  buttonTextTipoConsumo: {
+    color: "white",
+    fontSize: 25,
+    fontFamily: "Libre Baskerville",
+    textAlign: "center",
+  },
+});

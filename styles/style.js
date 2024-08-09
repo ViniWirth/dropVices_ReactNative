@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 
 export default StyleSheet.create({
+  //index.js TELA CARREGAMENTO
   telaCarregamento: {
     alignItems: "center",
     justifyContent: "center",
@@ -11,17 +12,21 @@ export default StyleSheet.create({
     width: 200,
     height: 200,
   },
+
+  //footer
   footer: {
-    width: '100%',
-    height: '10%',
-    justifyContent: 'center',
-    alignItems: 'center', 
-    marginBottom: '10%',
+    width: "100%",
+    height: "10%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: "10%",
   },
   logoFooter: {
     width: 65,
     height: 65,
   },
+
+  //container padrao
   container: {
     flex: 1,
     justifyContent: "center",
@@ -29,6 +34,8 @@ export default StyleSheet.create({
     padding: 20,
     backgroundColor: "#73AA9D",
   },
+
+  //input padrao
   input: {
     width: "90%",
     height: 50,
@@ -40,7 +47,9 @@ export default StyleSheet.create({
     borderWidth: 1,
     borderColor: "#ccc",
     fontFamily: "Libre Baskerville",
+    color: "#3E3E3E",
   },
+
   button: {
     width: "40%",
     height: 50,
@@ -57,15 +66,18 @@ export default StyleSheet.create({
     fontFamily: "Libre Baskerville",
     textAlign: "center",
   },
+
+
   logoCima: {
     alignItems: "center",
-    marginTop: '30%',
+    marginTop: "30%",
   },
-  textoBemVindoDiv : {
+
+  //bemVindo.js
+  textoBemVindoDiv: {
     marginLeft: "6%",
     marginRight: "6%",
     marginTop: "20%",
-
   },
   textoBemVindo: {
     color: "#fff",
@@ -86,6 +98,8 @@ export default StyleSheet.create({
     alignItems: "center",
     marginTop: 10,
   },
+
+  //tipoConsumo.js
   buttonTipoConsumo: {
     width: "75%",
     height: 80,
@@ -94,13 +108,30 @@ export default StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 30,
-    shadowColor: "#000", shadowOffset: { width: 0, height: 2, }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5,shadowColor: "#000", shadowOffset: { width: 0, height: 2, }, shadowOpacity: 0.25, shadowRadius: 3.84, elevation: 5,
-  
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   buttonTextTipoConsumo: {
     color: "white",
     fontSize: 25,
     fontFamily: "Libre Baskerville",
     textAlign: "center",
+  },
+
+  //quantMacos.js
+  textoQuant: {
+    color: "#fff",
+    fontSize: 25,
+    fontFamily: "Libre Baskerville",
+    textAlign: "center",
+    marginBottom: 30,
   },
 });

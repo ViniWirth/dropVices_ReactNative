@@ -17,7 +17,7 @@ export default function CompRegistro() {
 
   const router = useRouter();
 
-  function handleSignIn() {
+  function handleRegistro() {
     const data = {
       email,
       senha,
@@ -67,7 +67,7 @@ export default function CompRegistro() {
           placeholderTextColor="#888"
           secureTextEntry={true}
         />
-        <TouchableOpacity style={style.button} onPress={handleSignIn}>
+        <TouchableOpacity style={style.button} onPress={handleRegistro}>
           <Text style={style.buttonText}>Registrar-se</Text>
         </TouchableOpacity>
       </View>
