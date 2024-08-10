@@ -9,6 +9,7 @@ import {
   Image,
 } from "react-native";
 import style from "../../styles/style";
+import axios from "axios";
 
 export default function CompLogin() {
   const [email, setEmail] = useState("");
@@ -16,7 +17,7 @@ export default function CompLogin() {
 
   const router = useRouter();
 
-  function handleLogin() {
+  async function handleLogin() {
     const data = {
       email,
       senha,
@@ -25,7 +26,17 @@ export default function CompLogin() {
     if (email == null || email == "" || senha == null || senha == "") {
       alert("Preencha todos os campos!");
     } else {
-      router.push("/bemVindo");
+      try {
+        const resposta = await axios.post(
+          "http://192.168.2.190:3000/usuarios/login",
+          data
+        );
+        router.push("/");
+        console.log(resposta.data);
+      } catch (error) {
+        alert(error.response.data);
+        console.log(error);
+      }
     }
   }
 
@@ -48,9 +59,9 @@ export default function CompLogin() {
           placeholderTextColor="#888"
           secureTextEntry={true}
         />
-          <TouchableOpacity style={style.button} onPress={handleLogin}>
-            <Text style={style.buttonText}>Entrar</Text>
-          </TouchableOpacity>
+        <TouchableOpacity style={style.button} onPress={handleLogin}>
+          <Text style={style.buttonText}>Entrar</Text>
+        </TouchableOpacity>
       </View>
       <View style={style.footer}>
         <Image

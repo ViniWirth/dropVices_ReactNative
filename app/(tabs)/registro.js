@@ -22,7 +22,6 @@ export default function CompRegistro() {
       email,
       senha,
     };
-    console.log(data);
     if (
       email == null ||
       email == "" ||
@@ -35,7 +34,10 @@ export default function CompRegistro() {
     } else if (senha != confirmarSenha) {
       alert("As senhas não coincidem!");
     } else {
-      router.push("/bemVindo");
+      router.push({
+        pathname: "/bemVindo",
+        params: { email, senha }, // Passa o objeto data como parâmetro
+      });
     }
   }
 

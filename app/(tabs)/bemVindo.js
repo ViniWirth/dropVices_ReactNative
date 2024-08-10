@@ -1,58 +1,60 @@
 import React, { useState } from "react";
-import { Link, useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
+import style from "../../styles/style";
 import {
   Text,
   View,
-  StyleSheet,
   TextInput,
   TouchableOpacity,
   Image,
+  Keyboard,
 } from "react-native";
-import style from "../../styles/style";
 
-export default function bemVindo() {
+export default function BemVindo() {
   const [nome, setNome] = useState("");
   const [dataNascimento, setDataNascimento] = useState("");
 
   const router = useRouter();
+  const { email, senha } = useLocalSearchParams(); // Recebe o objeto data
+  console.log(email, senha);
 
-  function handleBemVindo() {
-    const data = {
-      nome,
-      dataNascimento,
-    };
-    console.log(data);
-    if (
-      nome == null ||
-      nome == "" ||
-      dataNascimento == null ||
-      dataNascimento == ""
-    ) {
+  const handleBemVindo = () => {
+    if (!nome || !dataNascimento) {
       alert("Preencha todos os campos!");
     } else {
-      router.push("/tipoConsumo");
+      router.push({
+        pathname: "/tipoConsumo",
+        params: { email, senha, nome, dataNascimento },
+      });
     }
-  }
+  };
 
   const handleDateChange = (text) => {
-    // Remove caracteres não numéricos
     const formattedText = text.replace(/[^0-9]/g, "");
 
-    //FORMATAÇÃO
+    let newDateNascimento;
     if (formattedText.length <= 2) {
-      setDataNascimento(formattedText);
+      newDateNascimento = formattedText;
     } else if (formattedText.length <= 4) {
-      setDataNascimento(
-        `${formattedText.slice(0, 2)}/${formattedText.slice(2)}`
-      );
+      newDateNascimento = `${formattedText.slice(0, 2)}/${formattedText.slice(2)}`;
     } else {
-      setDataNascimento(
-        `${formattedText.slice(0, 2)}/${formattedText.slice(
-          2,
-          4
-        )}/${formattedText.slice(4, 8)}`
-      );
+      newDateNascimento = `${formattedText.slice(0, 2)}/${formattedText.slice(2, 4)}/${formattedText.slice(4, 8)}`;
     }
+
+    // Atualiza a data no formato DD/MM/YYYY
+    setDataNascimento(newDateNascimento);
+    // Converter para o formato YYYY-MM-DD
+    if (formattedText.length === 8) {
+      const day = formattedText.slice(0, 2);
+      const month = formattedText.slice(2, 4);
+      const year = formattedText.slice(4, 8);
+      const formattedDate = `${year}-${month.padStart(2, '0')}-${day.padStart(2, '0')}`;
+      setDataNascimento(formattedDate);
+    }
+  };
+
+  const dismissKeyboard = () => {
+    Keyboard.dismiss();
   };
 
   return (
@@ -63,12 +65,7 @@ export default function bemVindo() {
           Para começar, qual seu nome e data de nascimento?
         </Text>
       </View>
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <View style={{ justifyContent: "center", alignItems: "center" }}>
         <Image
           style={style.garotaOi}
           source={require("../../assets/imgs/garotaOi.png")}

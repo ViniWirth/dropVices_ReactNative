@@ -1,5 +1,9 @@
-import React, { useState } from "react";
-import { Link, useRouter } from "expo-router";
+import React, {
+  useState,
+  TouchableWithoutFeedback,
+  dismissKeyboard,
+} from "react";
+import { Link, useRouter, useLocalSearchParams } from "expo-router";
 import {
   Text,
   View,
@@ -9,22 +13,31 @@ import {
   TextInput,
 } from "react-native";
 import style from "../../styles/style";
+import axios from "axios";  
 
 export default function cigConvencional() {
   const [quantidadeMacos, setQuantidadeMacos] = useState("");
   const [valorMaco, setValorMaco] = useState("");
 
+  const { email, senha, nome, dataNascimento, tipoConsumo } =
+    useLocalSearchParams();
+
   const router = useRouter();
 
-  function handleCigConvencional() {
+  function inserirDadosConvencional() {
     const quantidadeMacosFormatado = quantidadeMacos.replace(",", ".");
     const valorMacoFormatado = valorMaco.replace(",", ".");
-    
-    const data = { 
-      quantidadeMacos: quantidadeMacosFormatado, 
-      valorMaco: valorMacoFormatado 
+
+    const dados = {
+      email,
+      senha,
+      nome,
+      dataNascimento,
+      tipoConsumo,
+      quantidadeMacosFormatado,
+      valorMacoFormatado,
     };
-    console.log(data);
+    console.log(dados);
 
     if (
       quantidadeMacosFormatado === "" ||
@@ -36,11 +49,16 @@ export default function cigConvencional() {
         "Preencha todos os campos! Caso não saiba, coloque uma média aproximada."
       );
     } else {
+      axios.post(
+        "http://192.168.2.190:3000/usuarios/inserirDadosConvencional",
+        dados
+      );
       router.push("/motivo");
     }
   }
 
   return (
+    /*<TouchableWithoutFeedback onPress={dismissKeyboard}>*/
     <View
       style={{
         flex: 1,
@@ -93,7 +111,7 @@ export default function cigConvencional() {
       >
         <TouchableOpacity
           style={style.buttonAvancar}
-          onPress={handleCigConvencional}
+          onPress={inserirDadosConvencional}
         >
           <Text style={style.buttonText}>Avançar</Text>
         </TouchableOpacity>
@@ -108,5 +126,6 @@ export default function cigConvencional() {
         </Text>
       </View>
     </View>
+    /*</TouchableWithoutFeedback>*/
   );
 }

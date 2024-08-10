@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import style from "../../styles/style";
-import { Link } from "expo-router";
+import { Link, useLocalSearchParams, useRouter } from "expo-router";
 
 export default function TipoConsumo() {
   const [tipoConsumo, setTipoConsumo] = useState("");
+  const [navigate, setNavigate] = useState(false);
 
-  //O TIPO CONSUMO SÓ MUDA DEPOIS DO PROXIMO CLIQUE
-  function enviaTipoConsumo() {
-    console.log(tipoConsumo);
-  }
+  const { email, senha, nome, dataNascimento } = useLocalSearchParams();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (navigate) {
+      router.push({
+        pathname: tipoConsumo === "cigarro" ? "/cigConvencional" : "/cigEletronico",
+        params: { email, senha, nome, dataNascimento, tipoConsumo },
+      });
+      setNavigate(false);
+    }
+  }, [navigate]);
 
   return (
     <View style={{ flex: 1, backgroundColor: "#73AA9D" }}>
@@ -27,33 +36,27 @@ export default function TipoConsumo() {
       </View>
 
       <View style={style.container}>
-        <Link href="/cigConvencional" asChild>
-          <TouchableOpacity
-            style={styles.buttonTipoConsumo}
-            onPress={() => {
-              setTipoConsumo("cigarro");
-              enviaTipoConsumo();
-            }}
-          >
-            <Text style={styles.buttonTextTipoConsumo}>
-              Cigarros convencionais
-            </Text>
-          </TouchableOpacity>
-        </Link>
+        <TouchableOpacity
+          style={styles.buttonTipoConsumo}
+          onPress={() => {
+            setTipoConsumo("cigarro");
+            setNavigate(true);
+          }}
+        >
+          <Text style={styles.buttonTextTipoConsumo}>
+            Cigarros convencionais
+          </Text>
+        </TouchableOpacity>
 
-        <Link href="cigEletronico" asChild>
-          <TouchableOpacity
-            style={styles.buttonTipoConsumo}
-            onPress={() => {
-              setTipoConsumo("eletronico");
-              enviaTipoConsumo();
-            }}
-          >
-            <Text style={styles.buttonTextTipoConsumo}>
-              Cigarros eletrônicos
-            </Text>
-          </TouchableOpacity>
-        </Link>
+        <TouchableOpacity
+          style={styles.buttonTipoConsumo}
+          onPress={() => {
+            setTipoConsumo("eletronico");
+            setNavigate(true);
+          }}
+        >
+          <Text style={styles.buttonTextTipoConsumo}>Cigarros eletrônicos</Text>
+        </TouchableOpacity>
       </View>
 
       <View style={style.footer}>
@@ -78,11 +81,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderRadius: 30,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,

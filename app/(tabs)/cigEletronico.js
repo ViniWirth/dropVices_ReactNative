@@ -1,5 +1,9 @@
-import React, { useState } from "react";
-import { Link, useRouter } from "expo-router";
+import React, {
+  useState,
+  TouchableWithoutFeedback,
+  dismissKeyboard,
+} from "react";
+import { Link, useRouter, useLocalSearchParams } from "expo-router";
 import {
   Text,
   View,
@@ -9,14 +13,18 @@ import {
   TextInput,
 } from "react-native";
 import style from "../../styles/style";
+import axios from "axios";
 
 export default function cigEletronico() {
   const [valorCigarroEletronico, setValorCigarroEletronico] = useState("");
   const [duracaoCigarroEletronico, setDuracaoCigarroEletronico] = useState("");
 
+  const { email, senha, nome, dataNascimento, tipoConsumo } =
+    useLocalSearchParams();
+
   const router = useRouter();
 
-  function handleCigConvencional() {
+  function inserirDadosEletronico() {
     const valorCigarroEletronicoFormatado = valorCigarroEletronico.replace(
       ",",
       "."
@@ -26,11 +34,16 @@ export default function cigEletronico() {
       "."
     );
 
-    const data = {
-      valorCigarroEletronico: valorCigarroEletronicoFormatado,
-      duracaoCigarroEletronico: duracaoCigarroEletronicoFormatado,
+    const dados = {
+      email,
+      senha,
+      nome,
+      dataNascimento,
+      tipoConsumo,
+      valorCigarroEletronicoFormatado,
+      duracaoCigarroEletronicoFormatado,
     };
-    console.log(data);
+    console.log(dados);
 
     if (
       valorCigarroEletronicoFormatado == null ||
@@ -42,11 +55,16 @@ export default function cigEletronico() {
         "Preencha todos os campos! Caso não saiba, coloque uma média aproximada."
       );
     } else {
+      axios.post(
+        "http://192.168.2.190:3000/usuarios/inserirDadosEletronico",
+        dados
+      );
       router.push("/motivo");
     }
   }
 
   return (
+    /*<TouchableWithoutFeedback onPress={dismissKeyboard}>*/
     <View
       style={{
         flex: 1,
@@ -70,7 +88,9 @@ export default function cigEletronico() {
           style={style.input}
           placeholder="Ex: 150"
           keyboardType="numeric"
-          onChangeText={(text) => setValorCigarroEletronico(text.replace(",", "."))}
+          onChangeText={(text) =>
+            setValorCigarroEletronico(text.replace(",", "."))
+          }
           value={valorCigarroEletronico}
           placeholderTextColor="#888"
         />
@@ -83,7 +103,9 @@ export default function cigEletronico() {
           style={style.input}
           placeholder="Ex: 30"
           keyboardType="numeric"
-          onChangeText={(text) => setDuracaoCigarroEletronico(text.replace(",", "."))}
+          onChangeText={(text) =>
+            setDuracaoCigarroEletronico(text.replace(",", "."))
+          }
           value={duracaoCigarroEletronico}
           placeholderTextColor="#888"
         />
@@ -99,7 +121,7 @@ export default function cigEletronico() {
       >
         <TouchableOpacity
           style={style.buttonAvancar}
-          onPress={handleCigConvencional}
+          onPress={inserirDadosEletronico}
         >
           <Text style={style.buttonText}>Avançar</Text>
         </TouchableOpacity>
@@ -114,5 +136,6 @@ export default function cigEletronico() {
         </Text>
       </View>
     </View>
+    /*</TouchableWithoutFeedback>*/
   );
 }
