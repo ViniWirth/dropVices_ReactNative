@@ -27,8 +27,9 @@ export default function CompLogin() {
       alert("Preencha todos os campos!");
     } else {
       try {
+        const ipv4 = process.env.EXPO_PUBLIC_IPV4;
         const resposta = await axios.post(
-          "http://192.168.2.190:3000/usuarios/login",
+          "http://"+ipv4+":3000/usuarios/login",
           data
         );
         router.push("/");

@@ -9,9 +9,12 @@ import {
   Image,
 } from "react-native";
 import style from "../../styles/style";
+import contarDiasSemFumar from "../functions/contarDiasSemFumar";
 
 export default function apresentArvore() {
 
+  const router = useRouter();
+  
   return (
     <View style={{ flex: 1, backgroundColor: "#73AA9D", justifyContent: "center", alignItems: "center" }}>
       <View style={[style.textoBemVindoDiv, {marginBottom: 30}]}>
@@ -32,7 +35,7 @@ export default function apresentArvore() {
         />
       </View>
 
-        <TouchableOpacity style={[style.buttonAvancar, {marginBottom: 60}]}>
+        <TouchableOpacity style={[style.buttonAvancar, {marginBottom: 60}]} onPress={contarDiasSemFumar}>
           <Text style={style.buttonText}>Avançar</Text>
         </TouchableOpacity>
 

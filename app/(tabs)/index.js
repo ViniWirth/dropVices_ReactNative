@@ -3,9 +3,12 @@ import { Text, View, StyleSheet, TextInput, TouchableOpacity, Image } from "reac
 import style from "../../styles/style";
 import CompTelaCarregamento from "../../components/telaCarregamento";
 import { useRouter } from "expo-router";
+import contarDiasSemFumar from "../functions/contarDiasSemFumar";
 
 export default function Index() {
   const router = useRouter();
+
+
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -14,7 +17,7 @@ export default function Index() {
 
     // Limpeza do temporizador quando o componente for desmontado
     return () => clearTimeout(timer);
-  }, [router]);
+  }, []);
 
   return (
     <View
@@ -25,7 +28,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <CompTelaCarregamento />
+      <CompTelaCarregamento/>
     </View>
   );
 }

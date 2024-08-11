@@ -6,7 +6,6 @@ import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import style from "../../styles/style";
 
 export default function inicial() {
-  //const var = axios.get(url, data, config);
 
   return (
     <View style={{ backgroundColor: "#73AA9D", flex: 1 }}>
