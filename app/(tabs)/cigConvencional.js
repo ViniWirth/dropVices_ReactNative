@@ -1,15 +1,10 @@
-import React, {
-  useState,
-  TouchableWithoutFeedback,
-  dismissKeyboard,
-} from "react";
+import React, { useState } from "react";
 import { Link, useRouter, useLocalSearchParams } from "expo-router";
 import {
   Text,
   View,
   TouchableOpacity,
   Image,
-  StyleSheet,
   TextInput,
 } from "react-native";
 import style from "../../styles/style";
@@ -19,31 +14,28 @@ export default function cigConvencional() {
   const [quantidadeMacos, setQuantidadeMacos] = useState("");
   const [valorMaco, setValorMaco] = useState("");
 
-  const { email, senha, nome, dataNascimento, tipoConsumo } =
-    useLocalSearchParams();
-
+  const { email, senha, nome, dataNascimento, tipoConsumo } = useLocalSearchParams();
   const router = useRouter();
 
   function inserirDadosConvencional() {
-    const quantidadeMacosFormatado = quantidadeMacos.replace(",", ".");
-    const valorMacoFormatado = valorMaco.replace(",", ".");
-
+    
     const dados = {
       email,
       senha,
       nome,
       dataNascimento,
       tipoConsumo,
-      quantidadeMacosFormatado,
-      valorMacoFormatado,
+      quantidadeMacos,
+      valorMaco,
     };
+
     console.log(dados);
 
     if (
-      quantidadeMacosFormatado === "" ||
-      quantidadeMacosFormatado == null ||
-      valorMacoFormatado == "" ||
-      valorMacoFormatado == null
+      quantidadeMacos === "" ||
+      quantidadeMacos == null ||
+      valorMaco === "" ||
+      valorMaco == null
     ) {
       alert(
         "Preencha todos os campos! Caso não saiba, coloque uma média aproximada."
@@ -58,7 +50,6 @@ export default function cigConvencional() {
   }
 
   return (
-    /*<TouchableWithoutFeedback onPress={dismissKeyboard}>*/
     <View
       style={{
         flex: 1,
@@ -126,6 +117,5 @@ export default function cigConvencional() {
         </Text>
       </View>
     </View>
-    /*</TouchableWithoutFeedback>*/
   );
 }

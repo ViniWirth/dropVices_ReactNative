@@ -15,8 +15,7 @@ export default function BemVindo() {
   const [dataNascimento, setDataNascimento] = useState("");
 
   const router = useRouter();
-  const { email, senha } = useLocalSearchParams(); // Recebe o objeto data
-  console.log(email, senha);
+  const { email, senha } = useLocalSearchParams();
 
   const handleBemVindo = () => {
     if (!nome || !dataNascimento) {

@@ -36,7 +36,7 @@ export default function CompRegistro() {
     } else {
       router.push({
         pathname: "/bemVindo",
-        params: { email, senha }, // Passa o objeto data como parâmetro
+        params: { email, senha },
       });
     }
   }

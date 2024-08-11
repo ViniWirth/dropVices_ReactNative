@@ -1,17 +1,6 @@
-import React, {
-  useState,
-  TouchableWithoutFeedback,
-  dismissKeyboard,
-} from "react";
-import { Link, useRouter, useLocalSearchParams } from "expo-router";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  StyleSheet,
-  TextInput,
-} from "react-native";
+import React, { useState } from "react";
+import { useRouter, useLocalSearchParams } from "expo-router";
+import { Text, View, TouchableOpacity, Image, TextInput } from "react-native";
 import style from "../../styles/style";
 import axios from "axios";
 
@@ -19,37 +8,28 @@ export default function cigEletronico() {
   const [valorCigarroEletronico, setValorCigarroEletronico] = useState("");
   const [duracaoCigarroEletronico, setDuracaoCigarroEletronico] = useState("");
 
-  const { email, senha, nome, dataNascimento, tipoConsumo } =
-    useLocalSearchParams();
-
+  const { email, senha, nome, dataNascimento, tipoConsumo } = useLocalSearchParams();
   const router = useRouter();
 
   function inserirDadosEletronico() {
-    const valorCigarroEletronicoFormatado = valorCigarroEletronico.replace(
-      ",",
-      "."
-    );
-    const duracaoCigarroEletronicoFormatado = duracaoCigarroEletronico.replace(
-      ",",
-      "."
-    );
-
+    // As variáveis valorCigarroEletronico e duracaoCigarroEletronico já estão formatadas
     const dados = {
       email,
       senha,
       nome,
       dataNascimento,
       tipoConsumo,
-      valorCigarroEletronicoFormatado,
-      duracaoCigarroEletronicoFormatado,
+      valorCigarroEletronico,
+      duracaoCigarroEletronico,
     };
+
     console.log(dados);
 
     if (
-      valorCigarroEletronicoFormatado == null ||
-      valorCigarroEletronicoFormatado == "" ||
-      duracaoCigarroEletronicoFormatado == null ||
-      duracaoCigarroEletronicoFormatado == ""
+      valorCigarroEletronico == null ||
+      valorCigarroEletronico === "" ||
+      duracaoCigarroEletronico == null ||
+      duracaoCigarroEletronico === ""
     ) {
       alert(
         "Preencha todos os campos! Caso não saiba, coloque uma média aproximada."
@@ -64,7 +44,6 @@ export default function cigEletronico() {
   }
 
   return (
-    /*<TouchableWithoutFeedback onPress={dismissKeyboard}>*/
     <View
       style={{
         flex: 1,
@@ -136,6 +115,5 @@ export default function cigEletronico() {
         </Text>
       </View>
     </View>
-    /*</TouchableWithoutFeedback>*/
   );
 }
