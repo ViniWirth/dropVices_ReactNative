@@ -41,8 +41,9 @@ export default function cigConvencional() {
         "Preencha todos os campos! Caso não saiba, coloque uma média aproximada."
       );
     } else {
+      const ipv4 = process.env.EXPO_PUBLIC_IPV4;
       axios.post(
-        "http://192.168.2.190:3000/usuarios/inserirDadosConvencional",
+        "http://"+ipv4+":3000/usuarios/inserirDadosConvencional",
         dados
       );
       router.push("/motivo");
