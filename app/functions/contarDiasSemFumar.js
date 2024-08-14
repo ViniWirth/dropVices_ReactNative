@@ -11,25 +11,26 @@ import axios from "axios";
 import { useRouter } from "expo-router";
 
 export default function contarDiasSemFumar() {
-  const [ultimoDiaQueFumou, setUltimoDiaQueFumou] = useState(null);
-  const [diasSemFumar, setDiasSemFumar] = useState(null);
+  const [ultimoDiaQueFumou, setUltimoDiaQueFumou] = useState("");
+  const [diasSemFumar, setDiasSemFumar] = useState("");
+
+  const fetchUltimoDiaQueFumou = async () => {
+    try {
+      const ipv4 = process.env.EXPO_PUBLIC_IPV4;
+      const response = await axios.get(
+        `http://${ipv4}:3000/usuarios/getUltimoDiaQueFumou`,
+        {
+          params: { id: 24 },
+        }
+      );
+      console.log("Esse é o response.data: "+response.data);
+      setUltimoDiaQueFumou(response.data.ultimoDiaQueFumou);
+    } catch (error) {
+      console.error("Erro ao buscar o último dia que fumou:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchUltimoDiaQueFumou = async () => {
-      try {
-        const ipv4 = process.env.EXPO_PUBLIC_IPV4;
-        const response = await axios.get(
-          `http://${ipv4}:3000/usuarios/ultimoDiaQueFumou`,
-          {
-            params: { email: "data@gmail.com" }, // Substitua pelo email do usuário
-          }
-        );
-        setUltimoDiaQueFumou(response.data.ultimoDiaQueFumou);
-      } catch (error) {
-        console.error("Erro ao buscar o último dia que fumou:", error);
-      }
-    };
-
     fetchUltimoDiaQueFumou();
   }, []);
 
@@ -39,7 +40,9 @@ export default function contarDiasSemFumar() {
         const dataAtual = new Date();
         const dataUltimoDiaQueFumou = new Date(ultimoDiaQueFumou);
         const diferencaTempo = dataAtual - dataUltimoDiaQueFumou;
-        const diferencaDias = Math.floor(diferencaTempo / (1000 * 60 * 60 * 24));
+        const diferencaDias = Math.floor(
+          diferencaTempo / (1000 * 60 * 60 * 24)
+        );
         setDiasSemFumar(diferencaDias);
       };
 
@@ -47,13 +50,5 @@ export default function contarDiasSemFumar() {
     }
   }, [ultimoDiaQueFumou]);
 
-  return (
-    <View style={style.container}>
-      <Text style={style.texto}>
-        {diasSemFumar !== null
-          ? `Você está sem fumar há ${diasSemFumar} dias!`
-          : "Carregando..."}
-      </Text>
-    </View>
-  );
+  return { ultimoDiaQueFumou, diasSemFumar };
 }

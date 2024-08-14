@@ -1,34 +1,25 @@
-import React, { useState, useEffect } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  Image,
-} from "react-native";
-import style from "../../styles/style";
-import CompTelaCarregamento from "../../components/telaCarregamento";
+import React, { useEffect } from "react";
+import { View } from "react-native";
 import { useRouter } from "expo-router";
-import axios from "axios";
+import CompTelaCarregamento from "../../components/telaCarregamento";
 import contarDiasSemFumar from "../functions/contarDiasSemFumar";
 
 export default function Index() {
   const router = useRouter();
-  const [ultimoDiaQueFumou, setUltimoDiaQueFumou] = useState(null);
+  const { ultimoDiaQueFumou, diasSemFumar } = contarDiasSemFumar();
 
   useEffect(() => {
     const timer = setTimeout(() => {
       router.push("/inicial");
     }, 3000);
 
-    // Limpeza do temporizador quando o componente for desmontado
     return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    contarDiasSemFumar();
-  }, []);
+    console.log("Último dia que fumou:", ultimoDiaQueFumou);
+    console.log("Dias sem fumar:", diasSemFumar);
+  }, [ultimoDiaQueFumou, diasSemFumar]);
 
   return (
     <View
