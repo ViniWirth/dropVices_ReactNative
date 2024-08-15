@@ -12,6 +12,7 @@ import CompTelaCarregamento from "../../components/telaCarregamento";
 import { useRouter } from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import contarDiasSemFumar from "./contarDiasSemFumar";
 
 export default function valorEconomizado() {
   const [tipoConsumo, setTipoConsumo] = useState(null);
@@ -20,6 +21,7 @@ export default function valorEconomizado() {
   const [valorCigarroEletronico, setValorCigarroEletronico] = useState(null);
   const [duracaoCigarroEletronico, setDuracaoCigarroEletronico] =
     useState(null);
+  const { diasSemFumar } = contarDiasSemFumar();
 
   const pegarIdApoiado = async () => {
     const idapoiado = await AsyncStorage.getItem("resposta");
@@ -51,11 +53,17 @@ export default function valorEconomizado() {
     fetchValores();
   }, []);
 
+  if (tipoConsumo === "cigarro") {
+    const valorDiario = quantidadeMacos * valorMaco;
+    console.log(valorDiario);
+    const valorTotalEconomizado = valorDiario * diasSemFumar;
+    console.log(valorTotalEconomizado);
+    return valorTotalEconomizado;
+  }else if (tipoConsumo === "eletronico"){
+    //fazer com que o valorCigarroEletronico seja somado a cada vez que a duracaoCigarroEletronico caiba no diasSemFumar
+  }
+
   return {
-    tipoConsumo,
-    quantidadeMacos,
-    valorMaco,
-    valorCigarroEletronico,
-    duracaoCigarroEletronico,
+    valorTotalEconomizado
   };
 }

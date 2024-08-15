@@ -24,8 +24,12 @@ export default function mostrarDias() {
     />
   );
   const [etapa, setEtapa] = useState("1ª etapa");
-  const [objetivo, setObjetivo] = useState("Fique livre da nicotina por 7 dias!");
-  const [descricao, setDescricao] = useState("Os primeiros dias sem o uso da nicotina são os mais críticos, devido ao nível de abstinência. Mas não desista agora, esse marco é essencial para que você possa se recuperar desse vício!");
+  const [objetivo, setObjetivo] = useState(
+    "Fique livre da nicotina por 7 dias!"
+  );
+  const [descricao, setDescricao] = useState(
+    "Os primeiros dias sem o uso da nicotina são os mais críticos, devido ao nível de abstinência. Mas não desista agora, esse marco é essencial para que você possa se recuperar desse vício!"
+  );
 
   const { diasSemFumar } = contarDiasSemFumar();
   console.log("diasSemFumar: " + diasSemFumar);
@@ -40,7 +44,9 @@ export default function mostrarDias() {
       );
       setEtapa("2ª etapa");
       setObjetivo("Fique livre da nicotina por 13 dias!");
-      setDescricao("Parabéns, você chegou a segunda etapa, e agora seus sintomas de abstinência já tendem a diminuir. Continue com foco e persistência em sua jornada e lembre-se sempre de seus objetivos!");
+      setDescricao(
+        "Parabéns, você chegou a segunda etapa, e agora seus sintomas de abstinência já tendem a diminuir. Continue com foco e persistência em sua jornada e lembre-se sempre de seus objetivos!"
+      );
       console.log("Imagem atualizada para etapa 2.");
     } else if (diasSemFumar >= 14 && diasSemFumar <= 30) {
       setImgArvore(
@@ -51,7 +57,9 @@ export default function mostrarDias() {
       );
       setEtapa("3ª etapa");
       setObjetivo("Fique livre da nicotina por 1 mês!");
-      setDescricao("Você acaba de completar mais uma etapa muito importante para sua vida. A partir de agora diversos benefícios já surgem em seu organismo, como melhora na circulação, melhora na respiração, melhoras no olfato e paladar e até mesmo melhoras na sua pele. Você foi muito forte até aqui, continue assim!");
+      setDescricao(
+        "Você acaba de completar mais uma etapa muito importante para sua vida. A partir de agora diversos benefícios já surgem em seu organismo, como melhora na circulação, melhora na respiração, melhoras no olfato e paladar e até mesmo melhoras na sua pele. Você foi muito forte até aqui, continue assim!"
+      );
     } else if (diasSemFumar >= 31 && diasSemFumar <= 42) {
       setImgArvore(
         <Image
@@ -61,7 +69,9 @@ export default function mostrarDias() {
       );
       setEtapa("4ª etapa");
       setObjetivo("Fique livre da nicotina por 43 dias!");
-      setDescricao("Você concluiu 1 mês sem fumar! De agora em diante novos hábitos começam a se consolidar em seu dia a dia e seus riscos de recaídas tendem a diminuir. Você está indo muito bem e está quase chegando a última etapa, não desista agora!");
+      setDescricao(
+        "Você concluiu 1 mês sem fumar! De agora em diante novos hábitos começam a se consolidar em seu dia a dia e seus riscos de recaídas tendem a diminuir. Você está indo muito bem e está quase chegando a última etapa, não desista agora!"
+      );
     } else if (diasSemFumar >= 43 && diasSemFumar <= 59) {
       setImgArvore(
         <Image
@@ -71,12 +81,11 @@ export default function mostrarDias() {
       );
       setEtapa("5ª etapa");
       setObjetivo("Fique livre da nicotina por 2 meses!");
-      setDescricao("Bem-vindo(a) a 5 etapa, você realmente tem se dedicado! Novos hábitos estão se estabelecendo em sua vida e você está  seguindo rumo a fase final para conseguir superar esse vício. Tenha orgulho de si mesmo, você está quase lá!");
-    }else if (diasSemFumar >= 60){
-      router.push("/etapaFinal");
+      setDescricao(
+        "Bem-vindo(a) a 5 etapa, você realmente tem se dedicado! Novos hábitos estão se estabelecendo em sua vida e você está  seguindo rumo a fase final para conseguir superar esse vício. Tenha orgulho de si mesmo, você está quase lá!"
+      );
     }
-  }
-  , [diasSemFumar]);
+  }, [diasSemFumar]);
 
   return (
     <View>
@@ -112,9 +121,7 @@ export default function mostrarDias() {
             >
               Objetivo
             </Text>
-            <Text style={style.textoEmCaixa}>
-              {objetivo}
-            </Text>
+            <Text style={style.textoEmCaixa}>{objetivo}</Text>
           </View>
         </View>
       </View>
@@ -137,14 +144,10 @@ export default function mostrarDias() {
         >
           {diasSemFumar}
         </Text>
-        <Text style={[style.textoBorda, { alignSelf: "center" }]}>
-          {etapa}
-        </Text>
+        <Text style={[style.textoBorda, { alignSelf: "center" }]}>{etapa}</Text>
       </View>
       <View>
-        <Text style={[style.textoEmCaixa, { margin: 15 }]}>
-          {descricao}
-        </Text>
+        <Text style={[style.textoEmCaixa, { margin: 15 }]}>{descricao}</Text>
       </View>
     </View>
   );
