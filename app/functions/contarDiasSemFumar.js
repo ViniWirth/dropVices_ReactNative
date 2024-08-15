@@ -9,21 +9,28 @@ import {
 } from "react-native";
 import axios from "axios";
 import { useRouter } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function contarDiasSemFumar() {
   const [ultimoDiaQueFumou, setUltimoDiaQueFumou] = useState("");
-  const [diasSemFumar, setDiasSemFumar] = useState("");
+  const [diasSemFumar, setDiasSemFumar] = useState(0); // Inicia como número
+
+  const pegarIdApoiado = async () => {
+    const idapoiado = await AsyncStorage.getItem("resposta");
+    console.log("idapoiado: " + idapoiado);
+    return idapoiado;
+  };
 
   const fetchUltimoDiaQueFumou = async () => {
     try {
       const ipv4 = process.env.EXPO_PUBLIC_IPV4;
+      const idapoiado = await pegarIdApoiado();
       const response = await axios.get(
         `http://${ipv4}:3000/usuarios/getUltimoDiaQueFumou`,
         {
-          params: { id: 24 },
+          params: { idapoiado },
         }
       );
-      console.log("Esse é o response.data: "+response.data);
       setUltimoDiaQueFumou(response.data.ultimoDiaQueFumou);
     } catch (error) {
       console.error("Erro ao buscar o último dia que fumou:", error);
@@ -43,12 +50,16 @@ export default function contarDiasSemFumar() {
         const diferencaDias = Math.floor(
           diferencaTempo / (1000 * 60 * 60 * 24)
         );
-        setDiasSemFumar(diferencaDias);
+        setDiasSemFumar(diferencaDias); // Armazena como número
       };
 
       calcularDiasSemFumar();
     }
   }, [ultimoDiaQueFumou]);
+
+  useEffect(() => {
+    console.log("Tipo de diasSemFumar:", typeof diasSemFumar); // Confirma que é 'number'
+  }, [diasSemFumar]);
 
   return { ultimoDiaQueFumou, diasSemFumar };
 }

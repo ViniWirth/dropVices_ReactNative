@@ -5,8 +5,6 @@ import CompTelaCarregamento from "../../components/telaCarregamento";
 import { useRouter } from "expo-router";
 
 export default function valorEconomizado() {
-    let diasSemFumar = {
-        
-    }
+    
   
 }

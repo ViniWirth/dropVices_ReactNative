@@ -10,6 +10,8 @@ import {
 } from "react-native";
 import style from "../../styles/style";
 import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export default function CompLogin() {
   const [email, setEmail] = useState("");
@@ -29,11 +31,15 @@ export default function CompLogin() {
       try {
         const ipv4 = process.env.EXPO_PUBLIC_IPV4;
         const resposta = await axios.post(
-          "http://"+ipv4+":3000/usuarios/login",
+          "http://" + ipv4 + ":3000/usuarios/login",
           data
         );
-        router.push("/");
-        console.log(resposta.data);
+        //a
+        console.log("Resposta: " + resposta.data.idapoiado);
+        await AsyncStorage.setItem("resposta", JSON.stringify(resposta.data.idapoiado));
+
+
+        router.push("/mostrarDias");
       } catch (error) {
         alert(error.response.data);
         console.log(error);

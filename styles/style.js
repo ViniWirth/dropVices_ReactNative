@@ -67,7 +67,6 @@ export default StyleSheet.create({
     textAlign: "center",
   },
 
-
   logoCima: {
     alignItems: "center",
     marginTop: "30%",
@@ -133,5 +132,31 @@ export default StyleSheet.create({
     fontFamily: "Libre Baskerville",
     textAlign: "center",
     marginBottom: 30,
+  },
+  //arvore.js
+  imgArvore: {
+    width: 250,
+    height: 350,
+  },
+  textoBorda: {
+    fontFamily: "Libre Baskerville",
+    fontSize: 30,
+    color: "white",
+    backgroundColor: "#73AA9D",
+    padding: 5,
+    borderRadius: 20,
+    width: 120,
+    textAlign: "center",
+  },
+  textoEmCaixa: {
+    fontFamily: "Libre Baskerville",
+    textAlign: "center",
+    fontSize: 20,
+    border: "1px solid #287687",
+    borderRadius: 2,
+    marginTop: 35,
+    padding: 10,
+    marginLeft: 30,
+    marginRight: 30,
   },
 });
