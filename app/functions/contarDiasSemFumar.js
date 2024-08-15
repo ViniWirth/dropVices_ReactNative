@@ -17,7 +17,6 @@ export default function contarDiasSemFumar() {
 
   const pegarIdApoiado = async () => {
     const idapoiado = await AsyncStorage.getItem("resposta");
-    console.log("idapoiado: " + idapoiado);
     return idapoiado;
   };
 
@@ -56,10 +55,6 @@ export default function contarDiasSemFumar() {
       calcularDiasSemFumar();
     }
   }, [ultimoDiaQueFumou]);
-
-  useEffect(() => {
-    console.log("Tipo de diasSemFumar:", typeof diasSemFumar); // Confirma que é 'number'
-  }, [diasSemFumar]);
 
   return { ultimoDiaQueFumou, diasSemFumar };
 }

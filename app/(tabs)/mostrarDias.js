@@ -14,6 +14,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import contarDiasSemFumar from "../functions/contarDiasSemFumar";
 import { MaterialIcons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { router } from "expo-router";
 
 export default function mostrarDias() {
   const [imgArvore, setImgArvore] = useState(
@@ -23,6 +24,7 @@ export default function mostrarDias() {
     />
   );
   const [etapa, setEtapa] = useState("1ª etapa");
+  const [objetivo, setObjetivo] = useState("Fique livre da nicotina por 7 dias!");
   const [descricao, setDescricao] = useState("Os primeiros dias sem o uso da nicotina são os mais críticos, devido ao nível de abstinência. Mas não desista agora, esse marco é essencial para que você possa se recuperar desse vício!");
 
   const { diasSemFumar } = contarDiasSemFumar();
@@ -37,9 +39,10 @@ export default function mostrarDias() {
         />
       );
       setEtapa("2ª etapa");
+      setObjetivo("Fique livre da nicotina por 13 dias!");
       setDescricao("Parabéns, você chegou a segunda etapa, e agora seus sintomas de abstinência já tendem a diminuir. Continue com foco e persistência em sua jornada e lembre-se sempre de seus objetivos!");
       console.log("Imagem atualizada para etapa 2.");
-    } else if (diasSemFumar >= 15 && diasSemFumar <= 30) {
+    } else if (diasSemFumar >= 14 && diasSemFumar <= 30) {
       setImgArvore(
         <Image
           style={style.imgArvore}
@@ -47,7 +50,8 @@ export default function mostrarDias() {
         />
       );
       setEtapa("3ª etapa");
-      setDescricao("Você concluiu 1 mês sem fumar! A partir de agora diversos benefícios já surgem em seu organismo, como melhora na circulação, melhora na respiração, melhoras no olfato e paladar e até mesmo melhoras na sua pele. Você foi muito forte até aqui, continue assim!");
+      setObjetivo("Fique livre da nicotina por 1 mês!");
+      setDescricao("Você acaba de completar mais uma etapa muito importante para sua vida. A partir de agora diversos benefícios já surgem em seu organismo, como melhora na circulação, melhora na respiração, melhoras no olfato e paladar e até mesmo melhoras na sua pele. Você foi muito forte até aqui, continue assim!");
     } else if (diasSemFumar >= 31 && diasSemFumar <= 42) {
       setImgArvore(
         <Image
@@ -56,8 +60,9 @@ export default function mostrarDias() {
         />
       );
       setEtapa("4ª etapa");
-      setDescricao("Você acaba de completar mais uma etapa muito importante para sua vida. De agora em diante novos hábitos começam a se consolidar em seu dia a dia e seus riscos de recaídas tendem a diminuir. Você está indo muito bem e está quase chegando a última etapa, não desista agora!");
-    } else if (diasSemFumar >= 43) {
+      setObjetivo("Fique livre da nicotina por 43 dias!");
+      setDescricao("Você concluiu 1 mês sem fumar! De agora em diante novos hábitos começam a se consolidar em seu dia a dia e seus riscos de recaídas tendem a diminuir. Você está indo muito bem e está quase chegando a última etapa, não desista agora!");
+    } else if (diasSemFumar >= 43 && diasSemFumar <= 59) {
       setImgArvore(
         <Image
           style={style.imgArvore}
@@ -65,9 +70,13 @@ export default function mostrarDias() {
         />
       );
       setEtapa("5ª etapa");
-      setDescricao("Uau…foi um longo percurso até aqui, mas você se mostrou capaz! Muitos benefícios para a saúde estão se tornando mais evidentes e os novos hábitos estão bem estabelecidos. Você acreditou em si mesmo e assim começou uma nova etapa em sua vida que trará bons resultados no futuro. Continue sempre assim e nunca se esqueça do o que motivou a chegar até aqui, mesmo que difícil foi uma luta que valeu muito a pena. Você merece!");
+      setObjetivo("Fique livre da nicotina por 2 meses!");
+      setDescricao("Bem-vindo(a) a 5 etapa, você realmente tem se dedicado! Novos hábitos estão se estabelecendo em sua vida e você está  seguindo rumo a fase final para conseguir superar esse vício. Tenha orgulho de si mesmo, você está quase lá!");
+    }else if (diasSemFumar >= 60){
+      router.push("/etapaFinal");
     }
-  }, [diasSemFumar]);
+  }
+  , [diasSemFumar]);
 
   return (
     <View>
@@ -104,7 +113,7 @@ export default function mostrarDias() {
               Objetivo
             </Text>
             <Text style={style.textoEmCaixa}>
-              Fique livre da nicotina por 7 dias!
+              {objetivo}
             </Text>
           </View>
         </View>
