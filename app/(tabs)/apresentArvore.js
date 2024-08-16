@@ -12,15 +12,24 @@ import style from "../../styles/style";
 import contarDiasSemFumar from "../functions/contarDiasSemFumar";
 
 export default function apresentArvore() {
-
   const router = useRouter();
-  
+
   return (
-    <View style={{ flex: 1, backgroundColor: "#73AA9D", justifyContent: "center", alignItems: "center" }}>
-      <View style={[style.textoBemVindoDiv, {marginBottom: 30}]}>
-        <Text style={[style.textoBemVindo, {marginBottom: 20}]}>Você tomou a melhor decisão da sua VIDA!</Text>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: "#73AA9D",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <View style={[style.textoBemVindoDiv, { marginBottom: 30 }]}>
+        <Text style={[style.textoBemVindo, { marginBottom: 20 }]}>
+          Você tomou a melhor decisão da sua VIDA!
+        </Text>
         <Text style={style.textoBemVindo}>
-        Esta será a sua companheira para o resto de sua jornada, não fume que vocês dois terão uma saúde melhor!
+          Esta será a sua companheira para o resto de sua jornada, não fume que
+          vocês dois terão uma saúde melhor!
         </Text>
       </View>
       <View
@@ -30,14 +39,19 @@ export default function apresentArvore() {
         }}
       >
         <Image
-          style={[style.garotaOi, { marginBottom: 20 }] }
-          source={require("../../assets/imgs/garotaOi.png")}
+          style={[style.garotaOi, { marginBottom: 20 }]}
+          source={require("../../assets/imgs/etapasArvore/etapa1.png")}
         />
       </View>
 
-        <TouchableOpacity style={[style.buttonAvancar, {marginBottom: 60}]} onPress={contarDiasSemFumar}>
+      <Link href={"/inicial"}>
+        <TouchableOpacity
+          style={[style.buttonAvancar, { marginBottom: 60, width: 200 }]}
+          onPress={contarDiasSemFumar}
+        >
           <Text style={style.buttonText}>Avançar</Text>
         </TouchableOpacity>
+      </Link>
 
       <View style={style.footer}>
         <Image
