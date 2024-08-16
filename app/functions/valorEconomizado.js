@@ -22,6 +22,7 @@ export default function valorEconomizado() {
   const [duracaoCigarroEletronico, setDuracaoCigarroEletronico] =
     useState(null);
   const { diasSemFumar } = contarDiasSemFumar();
+  const [valorTotalEconomizado, setValorTotalEconomizado] = useState(0);
 
   const pegarIdApoiado = async () => {
     const idapoiado = await AsyncStorage.getItem("resposta");
@@ -53,17 +54,15 @@ export default function valorEconomizado() {
     fetchValores();
   }, []);
 
-  if (tipoConsumo === "cigarro") {
-    const valorDiario = quantidadeMacos * valorMaco;
-    console.log(valorDiario);
-    const valorTotalEconomizado = valorDiario * diasSemFumar;
-    console.log(valorTotalEconomizado);
-    return valorTotalEconomizado;
-  }else if (tipoConsumo === "eletronico"){
-    //fazer com que o valorCigarroEletronico seja somado a cada vez que a duracaoCigarroEletronico caiba no diasSemFumar
-  }
+  useEffect(() => {
+    if (tipoConsumo === "cigarro") {
+      const valorDiario = quantidadeMacos * valorMaco;
+      const totalEconomizado = valorDiario * diasSemFumar;
+      setValorTotalEconomizado(totalEconomizado);
+    } else if (tipoConsumo === "eletronico") {
+      // Implementar lógica para cigarro eletrônico
+    }
+  }, [tipoConsumo, quantidadeMacos, valorMaco, diasSemFumar]);
 
-  return {
-    valorTotalEconomizado
-  };
+  return { valorTotalEconomizado };
 }

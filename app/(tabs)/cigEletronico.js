@@ -37,8 +37,11 @@ export default function cigEletronico() {
       );
     } else {
       const ipv4 = process.env.EXPO_PUBLIC_IPV4;
+      /*axios.post(
+        "http://"+ipv4+"/usuarios/inserirDadosConvencional",
+        dados*/
       axios.post(
-        "http://"+ipv4+":3000/usuarios/inserirDadosConvencional",
+        "http://" + ipv4 + ":3000/usuarios/inserirDadosConvencional",
         dados
       );
       router.push("/motivo");

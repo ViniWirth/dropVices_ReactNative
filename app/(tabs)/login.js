@@ -30,6 +30,10 @@ export default function CompLogin() {
     } else {
       try {
         const ipv4 = process.env.EXPO_PUBLIC_IPV4;
+        /*const resposta = await axios.post(
+          "http://" + ipv4 + "/usuarios/login",
+          data
+        );*/
         const resposta = await axios.post(
           "http://" + ipv4 + ":3000/usuarios/login",
           data
