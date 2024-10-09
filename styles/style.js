@@ -159,4 +159,16 @@ export default StyleSheet.create({
     marginLeft: 30,
     marginRight: 30,
   },
+
+  //home
+  
+
+
+
+
+
+
+
+
+
 });
