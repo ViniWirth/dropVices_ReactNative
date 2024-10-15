@@ -46,7 +46,7 @@ export default function cigConvencional() {
         "http://"+ipv4+"/usuarios/inserirDadosConvencional",
         dados*/
         axios.post(
-          "http://"+ipv4+":3000/usuarios/inserirDadosConvencional",
+          ipv4+"/usuarios/inserirDadosConvencional",
           dados
       );
       router.push("/motivo");

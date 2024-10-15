@@ -35,7 +35,7 @@ export default function CompLogin() {
           data
         );*/
         const resposta = await axios.post(
-          "http://" + ipv4 + ":3000/usuarios/login",
+          ipv4+"/usuarios/login",
           data
         );
         //a

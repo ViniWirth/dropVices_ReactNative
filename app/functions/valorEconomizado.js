@@ -35,7 +35,7 @@ export default function valorEconomizado() {
       const ipv4 = process.env.EXPO_PUBLIC_IPV4;
       const idapoiado = await pegarIdApoiado();
       const response = await axios.get(
-        `http://${ipv4}:3000/usuarios/getValores`,
+        ipv4+"/usuarios/getValores",
         {
           params: { idapoiado },
         }
