@@ -13,6 +13,10 @@ import contarDiasSemFumar from "../functions/contarDiasSemFumar";
 
 export default function apresentArvore() {
   const router = useRouter();
+  const { viva } = contarDiasSemFumar();
+  async function ola (){
+    router.push("/inicial");
+  }
 
   return (
     <View
@@ -44,14 +48,14 @@ export default function apresentArvore() {
         />
       </View>
 
-      <Link href={"/inicial"}>
-        <TouchableOpacity
-          style={[style.buttonAvancar, { marginBottom: 60, width: 200 }]}
-          onPress={contarDiasSemFumar}
-        >
-          <Text style={style.buttonText}>Avançar</Text>
-        </TouchableOpacity>
-      </Link>
+      <TouchableOpacity
+        style={[style.buttonAvancar, { marginBottom: 60, width: 200 }]}
+        onPress={ async () => {
+          ola()
+        }}
+      >
+        <Text style={style.buttonText}>Avançar</Text>
+      </TouchableOpacity>
 
       <View style={style.footer}>
         <Image
@@ -59,7 +63,7 @@ export default function apresentArvore() {
           source={require("../../assets/imgs/logoDropVices.png")}
         />
         <Text style={{ fontFamily: "Libre Baskerville", fontWeight: "bold" }}>
-          DropVices
+          DropVices{viva}
         </Text>
       </View>
     </View>

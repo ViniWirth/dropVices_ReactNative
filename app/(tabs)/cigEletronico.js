@@ -12,7 +12,7 @@ export default function cigEletronico() {
     useLocalSearchParams();
   const router = useRouter();
 
-  function inserirDadosEletronico() {
+  function inserirDadosConvencional() {
     // As variáveis valorCigarroEletronico e duracaoCigarroEletronico já estão formatadas
     const dados = {
       email,
@@ -37,11 +37,8 @@ export default function cigEletronico() {
       );
     } else {
       const ipv4 = process.env.EXPO_PUBLIC_IPV4;
-      /*axios.post(
-        "http://"+ipv4+"/usuarios/inserirDadosConvencional",
-        dados*/
       axios.post(
-        ipv4+":/usuarios/inserirDadosConvencional",
+        ipv4+"/usuarios/inserirDadosConvencional",
         dados
       );
       router.push("/motivo");
@@ -105,7 +102,7 @@ export default function cigEletronico() {
       >
         <TouchableOpacity
           style={style.buttonAvancar}
-          onPress={inserirDadosEletronico}
+          onPress={inserirDadosConvencional}
         >
           <Text style={style.buttonText}>Avançar</Text>
         </TouchableOpacity>
