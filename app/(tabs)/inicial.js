@@ -19,7 +19,6 @@ export default function inicial() {
             fontSize: 40,
             color: "#fff",
             fontFamily: "Libre Baskerville",
-            fontWeight: "bold",
             marginTop: 3,
           }}
         >
@@ -46,7 +45,7 @@ export default function inicial() {
             marginTop: 20,
           }}
         >
-          Não tem uma conta? <Link href="/registro">Cadastre-se</Link>
+          Não tem uma conta? <Link href="/registro" style={{textDecorationLine: "underline"}}>Cadastre-se</Link>
         </Text>
       </View>
     </View>

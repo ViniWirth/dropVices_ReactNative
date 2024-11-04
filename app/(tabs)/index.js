@@ -1,20 +1,29 @@
-import React, { useEffect } from "react";
-import { View } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text } from "react-native";
 import { useRouter } from "expo-router";
+import * as Font from "expo-font";
 import CompTelaCarregamento from "../../components/telaCarregamento";
-import contarDiasSemFumar from "../functions/contarDiasSemFumar";
-import valorEconomizado from "../functions/valorEconomizado";
 
 export default function Index() {
   const router = useRouter();
+  const [fontLoaded, setFontLoaded] = useState(false);
 
   useEffect(() => {
+    Font.loadAsync({
+      "Libre Baskerville": require("../../assets/fonts/LibreBaskerville-Regular.ttf"),
+      "LibreBaskerville-Bold": require("../../assets/fonts/LibreBaskerville-Bold.ttf"),
+    }).then(() => setFontLoaded(true));
+
     const timer = setTimeout(() => {
       router.push("/inicial");
     }, 3000);
 
     return () => clearTimeout(timer);
   }, []);
+
+  if (!fontLoaded) {
+    return <CompTelaCarregamento />; // Tela de carregamento enquanto a fonte é carregada
+  }
 
   return (
     <View
@@ -25,7 +34,17 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <CompTelaCarregamento />
+      {/* Fonte Regular */}
+      <Text style={{ fontFamily: "Libre Baskerville" }}>Carregando...</Text>
+      {/* Fonte Bold */}
+      <Text
+        style={{
+          fontFamily: "LibreBaskerville-Bold",
+          fontWeight: "bold",
+        }}
+      >
+        Texto em Bold
+      </Text>
     </View>
   );
 }

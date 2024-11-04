@@ -79,7 +79,7 @@ export default function CompLogin() {
           style={style.logoFooter}
           source={require("../../assets/imgs/logoDropVices.png")}
         />
-        <Text style={{ fontFamily: "Libre Baskerville", fontWeight: "bold" }}>
+        <Text style={{ fontFamily: "LibreBaskerville-Bold" }}>
           DropVices
         </Text>
       </View>

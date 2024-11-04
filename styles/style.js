@@ -62,8 +62,7 @@ export default StyleSheet.create({
   buttonText: {
     color: "#3E3E3E",
     fontSize: 18,
-    fontWeight: "bold",
-    fontFamily: "Libre Baskerville",
+    fontFamily: "LibreBaskerville-Bold",
     textAlign: "center",
   },
 
@@ -140,10 +139,10 @@ export default StyleSheet.create({
   },
   textoBorda: {
     fontFamily: "Libre Baskerville",
-    fontSize: 30,
+    fontSize: 24,
     color: "white",
     backgroundColor: "#73AA9D",
-    padding: 5,
+    padding: 6.5,
     borderRadius: 20,
     width: 120,
     textAlign: "center",
@@ -151,7 +150,7 @@ export default StyleSheet.create({
   textoEmCaixa: {
     fontFamily: "Libre Baskerville",
     textAlign: "center",
-    fontSize: 20,
+    fontSize: 18,
     border: "1px solid #287687",
     borderRadius: 2,
     marginTop: 35,
