@@ -160,6 +160,11 @@ export default StyleSheet.create({
   },
 
   //home
+
+  imgHome: {
+    width: 70,
+    height: 100,
+  }
   
 
 
