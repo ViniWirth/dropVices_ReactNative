@@ -10,8 +10,7 @@ import {
 } from "react-native";
 import style from "../../styles/style";
 import axios from "axios";
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function CompLogin() {
   const [email, setEmail] = useState("");
@@ -30,18 +29,14 @@ export default function CompLogin() {
     } else {
       try {
         const ipv4 = process.env.EXPO_PUBLIC_IPV4;
-        /*const resposta = await axios.post(
-          "http://" + ipv4 + "/usuarios/login",
-          data
-        );*/
-        const resposta = await axios.post(
-          ipv4+"/usuarios/login",
-          data
-        );
-        //a
-        console.log("Resposta: " + resposta.data.idapoiado);
-        await AsyncStorage.setItem("resposta", JSON.stringify(resposta.data.idapoiado));
+        const resposta = await axios.post(ipv4 + "/usuarios/login", data);
 
+        console.log("Resposta: " + resposta.data.idapoiado);
+        await AsyncStorage.setItem(
+          "resposta",
+          JSON.stringify(resposta.data.idapoiado)
+        );
+        
 
         router.push("/mostrarDias");
       } catch (error) {
@@ -79,9 +74,7 @@ export default function CompLogin() {
           style={style.logoFooter}
           source={require("../../assets/imgs/logoDropVices.png")}
         />
-        <Text style={{ fontFamily: "LibreBaskerville-Bold" }}>
-          DropVices
-        </Text>
+        <Text style={{ fontFamily: "LibreBaskerville-Bold" }}>DropVices</Text>
       </View>
     </View>
   );

@@ -1,28 +1,18 @@
 import React, { useState, useEffect } from "react";
-import {
-  Text,
-  View,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import { Text, View, TouchableOpacity, Image } from "react-native";
 import style from "../../styles/style";
-import CompTelaCarregamento from "../../components/telaCarregamento";
-import { useRouter } from "expo-router";
+import valorEconomizado from "../functions/valorEconomizado";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
-import contarDiasSemFumar from "./contarDiasSemFumar";
 
-export default function valorEconomizado() {
+export default function apresentArvore() {
   const [tipoConsumo, setTipoConsumo] = useState(null);
   const [quantidadeMacos, setQuantidadeMacos] = useState(null);
   const [valorMaco, setValorMaco] = useState(null);
   const [valorCigarroEletronico, setValorCigarroEletronico] = useState(null);
   const [duracaoCigarroEletronico, setDuracaoCigarroEletronico] =
     useState(null);
-  const { diasSemFumar } = contarDiasSemFumar();
-  const [valorTotalEconomizado, setValorTotalEconomizado] = useState(0);
+  const { valorTotalEconomizado } = valorEconomizado();
 
   const pegarIdApoiado = async () => {
     const idapoiado = await AsyncStorage.getItem("resposta");
@@ -50,15 +40,32 @@ export default function valorEconomizado() {
     fetchValores();
   }, []);
 
-  useEffect(() => {
-    if (tipoConsumo === "cigarro") {
-      const valorDiario = quantidadeMacos * valorMaco;
-      const totalEconomizado = valorDiario * diasSemFumar;
-      setValorTotalEconomizado(totalEconomizado);
-    } else if (tipoConsumo === "eletronico") {
-      // Implementar lógica para cigarro eletrônico
-    }
-  }, [tipoConsumo, quantidadeMacos, valorMaco, diasSemFumar]);
+  
 
-  return { valorTotalEconomizado };
+
+
+
+
+  return (
+    <View>
+      <Text>voltar</Text>
+      <View>
+        <Text
+          style={{
+            fontFamily: "Libre Baskerville",
+            fontSize: 32,
+            textAlign: "center",
+            marginTop: 50,
+            marginLeft: 10,
+            marginRight: 10,
+          }}
+        >
+          Quanto você deixou de gastar com seu esforço?
+        </Text>
+      </View>
+      <View>
+
+      </View>
+    </View>
+  );
 }
