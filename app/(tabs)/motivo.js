@@ -4,6 +4,7 @@ import style from "../../styles/style";
 import { Link, useRouter, useLocalSearchParams } from "expo-router";
 import axios from "axios";
 
+
 export default function motivo() {
 
 

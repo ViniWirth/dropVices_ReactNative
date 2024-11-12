@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Text, View, Image } from "react-native";
+import { Link, useRouter } from "expo-router";
 import style from "../../styles/style";
 import contarDiasSemFumar from "../functions/contarDiasSemFumar";
 import valorEconomizado from "../functions/valorEconomizado";
+import { MaterialIcons } from "@expo/vector-icons";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
-export default function mostrarDias() {
+export default function home() {
   const { valorTotalEconomizado } = valorEconomizado();
   const { diasSemFumar } = contarDiasSemFumar();
 
@@ -24,7 +27,7 @@ export default function mostrarDias() {
     "Você é mais forte que o vício!",
     "A liberdade vale cada esforço. Continue assim!",
   ];
-  
+
   const [fraseMotivacional, setFraseMotivacional] = useState(frases[0]);
 
   // Atualiza a frase motivacional a cada 3 minutos
@@ -103,6 +106,7 @@ export default function mostrarDias() {
             marginTop: 50,
           }}
         >
+          <Link href={"/exibicaoValor"}>
           <View>
             <Text
               style={{
@@ -120,19 +124,22 @@ export default function mostrarDias() {
               ${valorTotalEconomizado}
             </Text>
           </View>
-          <View
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "center",
-              marginTop: 20,
-            }}
-          >
-            {imgArvore}
-          </View>
+          </Link>
+          <Link href={"/mostrarDias"}>
+            <View
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                marginTop: 20,
+              }}
+            >
+              {imgArvore}
+            </View>
+          </Link>
         </View>
       </View>
-      <View style={{margin:10}}>
+      <View style={{ margin: 10 }}>
         <Text
           style={{
             fontFamily: "Libre Baskerville",
@@ -144,11 +151,7 @@ export default function mostrarDias() {
           {fraseMotivacional}
         </Text>
       </View>
-    
-    
-          FAZER A PARTE DAS DOCUEMNTACIOES
-    
-
+      FAZER A PARTE DAS DOCUEMNTACIOES
     </View>
   );
 }

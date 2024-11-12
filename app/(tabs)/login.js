@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link, useRouter } from "expo-router";
+import { MaterialIcons } from "@expo/vector-icons";
+import AntDesign from "@expo/vector-icons/AntDesign";
 import {
   Text,
   View,
@@ -38,7 +40,7 @@ export default function CompLogin() {
         );
         
 
-        router.push("/mostrarDias");
+        router.push("/home");
       } catch (error) {
         alert(error.response.data);
         console.log(error);

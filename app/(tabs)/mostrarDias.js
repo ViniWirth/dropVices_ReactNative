@@ -90,7 +90,7 @@ export default function mostrarDias() {
   return (
     <View>
       <View style={{ marginTop: "5%", marginLeft: "2%" }}>
-        <Link href={"/inicial"}>
+        <Link href={"/home"}>
           <Text style={{ fontSize: 34, fontFamily: "Libre Baskerville" }}>
             <AntDesign name="left" size={34} color="black" />
             Sua árvore
