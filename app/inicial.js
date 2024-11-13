@@ -3,16 +3,15 @@ import { Link } from "expo-router";
 import React from "react";
 
 import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
-import style from "../../styles/style";
+import style from "../styles/style";
 
 export default function inicial() {
-
   return (
     <View style={{ backgroundColor: "#73AA9D", flex: 1 }}>
       <View style={style.logoCima}>
         <Image
           style={style.logoCarregamento}
-          source={require("../../assets/imgs/logoDropVices.png")}
+          source={require("../assets/imgs/logoDropVices.png")}
         />
         <Text
           style={{
@@ -32,7 +31,7 @@ export default function inicial() {
           marginTop: 150,
         }}
       >
-        <Link href="/login" asChild>
+        <Link href="/login/login" asChild>
           <TouchableOpacity style={style.button}>
             <Text style={style.buttonText}>Entrar</Text>
           </TouchableOpacity>
@@ -45,7 +44,10 @@ export default function inicial() {
             marginTop: 20,
           }}
         >
-          Não tem uma conta? <Link href="/registro" style={{textDecorationLine: "underline"}}>Cadastre-se</Link>
+          Não tem uma conta?{" "}
+          <Link href="registro/registro" style={{ textDecorationLine: "underline" }}>
+            Cadastre-se
+          </Link>
         </Text>
       </View>
     </View>

@@ -13,7 +13,7 @@ export default function TipoConsumo() {
   useEffect(() => {
     if (navigate) {
       router.push({
-        pathname: tipoConsumo === "cigarro" ? "/cigConvencional" : "/cigEletronico",
+        pathname: tipoConsumo === "cigarro" ? "registro/cigConvencional" : "registro/cigEletronico",
         params: { email, senha, nome, dataNascimento, tipoConsumo },
       });
       setNavigate(false);

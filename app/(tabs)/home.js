@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Text, View, Image } from "react-native";
-import { Link, useRouter } from "expo-router";
+import { Text, View, Image, StyleSheet } from "react-native";
+import { Link } from "expo-router";
 import style from "../../styles/style";
 import contarDiasSemFumar from "../functions/contarDiasSemFumar";
 import valorEconomizado from "../functions/valorEconomizado";
-import { MaterialIcons } from "@expo/vector-icons";
-import AntDesign from "@expo/vector-icons/AntDesign";
+import CompNavBar from "../../components/navbar";
 
-export default function home() {
+export default function Home() {
   const { valorTotalEconomizado } = valorEconomizado();
   const { diasSemFumar } = contarDiasSemFumar();
 
@@ -77,81 +76,82 @@ export default function home() {
   }, [diasSemFumar]);
 
   return (
-    <View>
-      <View style={{ display: "flex", flexDirection: "row" }}>
-        <View
-          style={{
-            width: "50%",
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: 50,
-          }}
-        >
-          <Text
-            style={{
-              fontFamily: "Libre Baskerville",
-              fontSize: 170,
-              fontWeight: "bold",
-              color: "#73AA9D",
-            }}
-          >
-            {diasSemFumar}
-          </Text>
+    <View style={styles.container}>
+      <View style={styles.mainContent}>
+        <View style={styles.daysContainer}>
+          <Text style={styles.daysText}>{diasSemFumar}</Text>
         </View>
-        <View
-          style={{
-            width: "50%",
-            justifyContent: "center",
-            alignItems: "center",
-            marginTop: 50,
-          }}
-        >
+
+        <View style={styles.economyContainer}>
           <Link href={"/exibicaoValor"}>
-          <View>
-            <Text
-              style={{
-                fontFamily: "Libre Baskerville",
-                backgroundColor: "#73AA9D",
-                color: "white",
-                fontWeight: 500,
-                fontSize: 32,
-                padding: 10,
-                paddingHorizontal: 60,
-                textAlign: "center",
-                borderRadius: 20,
-              }}
-            >
-              ${valorTotalEconomizado}
-            </Text>
-          </View>
+            <Text style={styles.economyText}>${valorTotalEconomizado}</Text>
           </Link>
           <Link href={"/mostrarDias"}>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                alignItems: "center",
-                marginTop: 20,
-              }}
-            >
-              {imgArvore}
-            </View>
+            <View style={styles.treeContainer}>{imgArvore}</View>
           </Link>
         </View>
       </View>
-      <View style={{ margin: 10 }}>
-        <Text
-          style={{
-            fontFamily: "Libre Baskerville",
-            fontSize: 32,
-            textAlign: "center",
-            marginTop: 30,
-          }}
-        >
-          {fraseMotivacional}
-        </Text>
+
+      <View style={styles.motivationalContainer}>
+        <Text style={styles.motivationalText}>{fraseMotivacional}</Text>
       </View>
-      FAZER A PARTE DAS DOCUEMNTACIOES
+
+      <CompNavBar />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1, // O contêiner ocupa toda a tela
+  },
+  mainContent: {
+    display: "flex",
+    flexDirection: "row",
+    marginTop: 20, // Ajusta a margem superior
+  },
+  daysContainer: {
+    width: "50%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 50,
+  },
+  daysText: {
+    fontFamily: "Libre Baskerville",
+    fontSize: 170,
+    fontWeight: "bold",
+    color: "#73AA9D",
+  },
+  economyContainer: {
+    width: "50%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 50,
+  },
+  economyText: {
+    fontFamily: "Libre Baskerville",
+    backgroundColor: "#73AA9D",
+    color: "white",
+    fontWeight: 500,
+    fontSize: 32,
+    padding: 10,
+    paddingHorizontal: 60,
+    textAlign: "center",
+    borderRadius: 20,
+  },
+  treeContainer: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    marginTop: 20,
+  },
+  motivationalContainer: {
+    margin: 10,
+  },
+  motivationalText: {
+    fontFamily: "Libre Baskerville",
+    fontSize: 32,
+    textAlign: "center",
+    marginTop: 30,
+  },
+});

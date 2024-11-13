@@ -1,55 +1,47 @@
 import React, { useState } from "react";
-import { Link, useRouter, useLocalSearchParams } from "expo-router";
-import {
-  Text,
-  View,
-  TouchableOpacity,
-  Image,
-  TextInput,
-} from "react-native";
+import { useRouter, useLocalSearchParams } from "expo-router";
+import { Text, View, TouchableOpacity, Image, TextInput } from "react-native";
 import style from "../../styles/style";
-import axios from "axios";  
+import axios from "axios";
 
-export default function cigConvencional() {
-  const [quantidadeMacos, setQuantidadeMacos] = useState("");
-  const [valorMaco, setValorMaco] = useState("");
+export default function cigEletronico() {
+  const [valorCigarroEletronico, setValorCigarroEletronico] = useState("");
+  const [duracaoCigarroEletronico, setDuracaoCigarroEletronico] = useState("");
 
-  const { email, senha, nome, dataNascimento, tipoConsumo } = useLocalSearchParams();
+  const { email, senha, nome, dataNascimento, tipoConsumo } =
+    useLocalSearchParams();
   const router = useRouter();
 
   function inserirDadosConvencional() {
-    
+    // As variáveis valorCigarroEletronico e duracaoCigarroEletronico já estão formatadas
     const dados = {
       email,
       senha,
       nome,
       dataNascimento,
       tipoConsumo,
-      quantidadeMacos,
-      valorMaco,
+      valorCigarroEletronico,
+      duracaoCigarroEletronico,
     };
 
     console.log(dados);
 
     if (
-      quantidadeMacos === "" ||
-      quantidadeMacos == null ||
-      valorMaco === "" ||
-      valorMaco == null
+      valorCigarroEletronico == null ||
+      valorCigarroEletronico === "" ||
+      duracaoCigarroEletronico == null ||
+      duracaoCigarroEletronico === ""
     ) {
       alert(
         "Preencha todos os campos! Caso não saiba, coloque uma média aproximada."
       );
     } else {
       const ipv4 = process.env.EXPO_PUBLIC_IPV4;
-      /*axios.post(
-        "http://"+ipv4+"/usuarios/inserirDadosConvencional",
-        dados*/
-        axios.post(
-          ipv4+"/usuarios/inserirDadosConvencional",
-          dados
+      axios.post(
+        ipv4+"/usuarios/inserirDadosConvencional",
+        dados
       );
-      router.push("/motivo");
+      router.push("registro/motivo");
     }
   }
 
@@ -71,27 +63,31 @@ export default function cigConvencional() {
         }}
       >
         <Text style={style.textoQuant}>
-          Quantos maços de cigarros você fuma por dia, em média?
+          Insira abaixo, em média, quanto você paga em um cigarro eletrônico:
         </Text>
         <TextInput
           style={style.input}
-          placeholder="Ex: 1,5"
+          placeholder="Ex: 150"
           keyboardType="numeric"
-          onChangeText={(text) => setQuantidadeMacos(text.replace(",", "."))}
-          value={quantidadeMacos}
+          onChangeText={(text) =>
+            setValorCigarroEletronico(text.replace(",", "."))
+          }
+          value={valorCigarroEletronico}
           placeholderTextColor="#888"
         />
       </View>
       <View style={{ justifyContent: "center", alignItems: "center" }}>
         <Text style={style.textoQuant}>
-          Quantos reais aproximadamente você paga em um maço de cigarro?
+          Quanto dias costumava durar seu cigarro eletrônico?
         </Text>
         <TextInput
           style={style.input}
-          placeholder="Ex: 7,50"
+          placeholder="Ex: 30"
           keyboardType="numeric"
-          onChangeText={(text) => setValorMaco(text.replace(",", "."))}
-          value={valorMaco}
+          onChangeText={(text) =>
+            setDuracaoCigarroEletronico(text.replace(",", "."))
+          }
+          value={duracaoCigarroEletronico}
           placeholderTextColor="#888"
         />
       </View>

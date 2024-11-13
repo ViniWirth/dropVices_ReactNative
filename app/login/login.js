@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link, useRouter } from "expo-router";
+import { MaterialIcons } from "@expo/vector-icons";
+import AntDesign from "@expo/vector-icons/AntDesign";
 import {
   Text,
   View,
@@ -9,35 +11,39 @@ import {
   Image,
 } from "react-native";
 import style from "../../styles/style";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-export default function CompRegistro() {
+export default function CompLogin() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [confirmarSenha, setConfirmarSenha] = useState("");
 
   const router = useRouter();
 
-  function handleRegistro() {
+  async function handleLogin() {
     const data = {
       email,
       senha,
     };
-    if (
-      email == null ||
-      email == "" ||
-      senha == null ||
-      senha == "" ||
-      confirmarSenha == null ||
-      confirmarSenha == ""
-    ) {
+    console.log(data);
+    if (email == null || email == "" || senha == null || senha == "") {
       alert("Preencha todos os campos!");
-    } else if (senha != confirmarSenha) {
-      alert("As senhas não coincidem!");
     } else {
-      router.push({
-        pathname: "/bemVindo",
-        params: { email, senha },
-      });
+      try {
+        const ipv4 = process.env.EXPO_PUBLIC_IPV4;
+        const resposta = await axios.post(ipv4 + "/usuarios/login", data);
+
+        console.log("Resposta: " + resposta.data.idapoiado);
+        await AsyncStorage.setItem(
+          "resposta",
+          JSON.stringify(resposta.data.idapoiado)
+        );
+
+        router.push("/home");
+      } catch (error) {
+        alert(error.response.data);
+        console.log(error);
+      }
     }
   }
 
@@ -60,17 +66,8 @@ export default function CompRegistro() {
           placeholderTextColor="#888"
           secureTextEntry={true}
         />
-
-        <TextInput
-          style={style.input}
-          onChangeText={setConfirmarSenha}
-          value={confirmarSenha}
-          placeholder="Confirmar senha"
-          placeholderTextColor="#888"
-          secureTextEntry={true}
-        />
-        <TouchableOpacity style={style.button} onPress={handleRegistro}>
-          <Text style={style.buttonText}>Registrar-se</Text>
+        <TouchableOpacity style={style.button} onPress={handleLogin}>
+          <Text style={style.buttonText}>Entrar</Text>
         </TouchableOpacity>
       </View>
       <View style={style.footer}>
@@ -78,9 +75,7 @@ export default function CompRegistro() {
           style={style.logoFooter}
           source={require("../../assets/imgs/logoDropVices.png")}
         />
-        <Text style={{fontFamily: "LibreBaskerville-Bold"}}>
-          DropVices
-        </Text>
+        <Text style={{ fontFamily: "LibreBaskerville-Bold" }}>DropVices</Text>
       </View>
     </View>
   );

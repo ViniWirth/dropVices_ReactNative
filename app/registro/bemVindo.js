@@ -22,7 +22,7 @@ export default function BemVindo() {
       alert("Preencha todos os campos!");
     } else {
       router.push({
-        pathname: "/tipoConsumo",
+        pathname: "registro/tipoConsumo",
         params: { email, senha, nome, dataNascimento },
       });
     }

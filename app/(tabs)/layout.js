@@ -1,22 +1,25 @@
-import { Tabs } from "expo-router";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { Slot } from "expo-router";
+import CompNavBar from "../../components/navbar"; // Ajuste o caminho conforme necessário
 
-export default function TabsRoutesCentral() {
+export default function TabsLayout() {
   return (
-    <Tabs
-      screenOptions={() => ({
-        headerShown: false,
-        tabBarShowLabel: false,
-        tabBarStyle: {
-          backgroundColor: "white",
-          borderTopWidth: 0,
-          height: 70,
-          paddingBottom: 10,
-        },
-      })}
-    >
-      <Tabs.Screen name="exibicaoValor" />
-      <Tabs.Screen name="metodos" />
-      <Tabs.Screen name="home" />
-    </Tabs>
+    <View style={styles.container}>
+      <View style={styles.content}>
+        <Slot /> {/* Renderiza o conteúdo da página atual */}
+      </View>
+      <CompNavBar /> {/* Adiciona a NavBar fixa */}
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  content: {
+    flex: 1,
+    marginBottom: 70, // Aumente a margem para garantir espaço suficiente para a NavBar
+  },
+});

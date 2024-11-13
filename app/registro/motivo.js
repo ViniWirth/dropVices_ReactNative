@@ -24,37 +24,37 @@ export default function motivo() {
       </View>
 
       <View style={style.container}>
-        <Link href="/apresentArvore" asChild>
+        <Link href="registro/apresentArvore" asChild>
           <TouchableOpacity style={styles.buttonMotivo}>
             <Text style={styles.buttonTextMotivo}>Minha saúde</Text>
           </TouchableOpacity>
         </Link>
 
-        <Link href="/apresentArvore" asChild>
+        <Link href="registro/apresentArvore" asChild>
           <TouchableOpacity style={styles.buttonMotivo}>
             <Text style={styles.buttonTextMotivo}>Meu bem-estar</Text>
           </TouchableOpacity>
         </Link>
 
-        <Link href="/apresentArvore" asChild>
+        <Link href="registro/apresentArvore" asChild>
           <TouchableOpacity style={styles.buttonMotivo}>
             <Text style={styles.buttonTextMotivo}>Ciclo social</Text>
           </TouchableOpacity>
         </Link>
 
-        <Link href="/apresentArvore" asChild>
+        <Link href="registro/apresentArvore" asChild>
           <TouchableOpacity style={styles.buttonMotivo}>
             <Text style={styles.buttonTextMotivo}>Economizar dinheiro</Text>
           </TouchableOpacity>
         </Link>
 
-        <Link href="/apresentArvore" asChild>
+        <Link href="registro/apresentArvore" asChild>
           <TouchableOpacity style={styles.buttonMotivo}>
             <Text style={styles.buttonTextMotivo}>Aparência</Text>
           </TouchableOpacity>
         </Link>
 
-        <Link href="/apresentArvore" asChild>
+        <Link href="registro/apresentArvore" asChild>
           <TouchableOpacity style={styles.buttonMotivo}>
             <Text style={styles.buttonTextMotivo}>Fertilidade</Text>
           </TouchableOpacity>

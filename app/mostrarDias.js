@@ -8,10 +8,10 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import style from "../../styles/style";
+import style from "../styles/style";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import contarDiasSemFumar from "../functions/contarDiasSemFumar";
+import contarDiasSemFumar from "./functions/contarDiasSemFumar";
 import { MaterialIcons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { router } from "expo-router";
@@ -20,7 +20,7 @@ export default function mostrarDias() {
   const [imgArvore, setImgArvore] = useState(
     <Image
       style={style.imgArvore}
-      source={require("../../assets/imgs/etapasArvore/etapa1.png")}
+      source={require("../assets/imgs/etapasArvore/etapa1.png")}
     />
   );
   const [etapa, setEtapa] = useState("1ª etapa");
@@ -39,7 +39,7 @@ export default function mostrarDias() {
       setImgArvore(
         <Image
           style={style.imgArvore}
-          source={require("../../assets/imgs/etapasArvore/etapa2.png")}
+          source={require("../assets/imgs/etapasArvore/etapa2.png")}
         />
       );
       setEtapa("2ª etapa");
@@ -52,7 +52,7 @@ export default function mostrarDias() {
       setImgArvore(
         <Image
           style={style.imgArvore}
-          source={require("../../assets/imgs/etapasArvore/etapa3.png")}
+          source={require("../assets/imgs/etapasArvore/etapa3.png")}
         />
       );
       setEtapa("3ª etapa");
@@ -64,7 +64,7 @@ export default function mostrarDias() {
       setImgArvore(
         <Image
           style={style.imgArvore}
-          source={require("../../assets/imgs/etapasArvore/etapa4.png")}
+          source={require("../assets/imgs/etapasArvore/etapa4.png")}
         />
       );
       setEtapa("4ª etapa");
@@ -76,7 +76,7 @@ export default function mostrarDias() {
       setImgArvore(
         <Image
           style={style.imgArvore}
-          source={require("../../assets/imgs/etapasArvore/etapa5.png")}
+          source={require("../assets/imgs/etapasArvore/etapa5.png")}
         />
       );
       setEtapa("5ª etapa");

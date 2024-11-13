@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { View, Text } from "react-native";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
-import CompTelaCarregamento from "../../components/telaCarregamento";
+import CompTelaCarregamento from "../components/telaCarregamento";
 
 export default function Index() {
   const router = useRouter();
@@ -10,8 +10,8 @@ export default function Index() {
 
   useEffect(() => {
     Font.loadAsync({
-      "Libre Baskerville": require("../../assets/fonts/LibreBaskerville-Regular.ttf"),
-      "LibreBaskerville-Bold": require("../../assets/fonts/LibreBaskerville-Bold.ttf"),
+      "Libre Baskerville": require("../assets/fonts/LibreBaskerville-Regular.ttf"),
+      "LibreBaskerville-Bold": require("../assets/fonts/LibreBaskerville-Bold.ttf"),
     }).then(() => setFontLoaded(true));
 
     const timer = setTimeout(() => {
