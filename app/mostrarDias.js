@@ -72,7 +72,7 @@ export default function mostrarDias() {
       setDescricao(
         "Você concluiu 1 mês sem fumar! De agora em diante novos hábitos começam a se consolidar em seu dia a dia e seus riscos de recaídas tendem a diminuir. Você está indo muito bem e está quase chegando a última etapa, não desista agora!"
       );
-    } else if (diasSemFumar >= 43 /*&& diasSemFumar <= 59*/) {
+    } else if (diasSemFumar >= 43 && diasSemFumar <= 59) {
       setImgArvore(
         <Image
           style={style.imgArvore}
@@ -84,6 +84,10 @@ export default function mostrarDias() {
       setDescricao(
         "Bem-vindo(a) a 5 etapa, você realmente tem se dedicado! Novos hábitos estão se estabelecendo em sua vida e você está  seguindo rumo a fase final para conseguir superar esse vício. Tenha orgulho de si mesmo, você está quase lá!"
       );
+    }else if (diasSemFumar >=60){
+      router.push({
+        pathname: "etapaFinal",
+      });
     }
   }, [diasSemFumar]);
 

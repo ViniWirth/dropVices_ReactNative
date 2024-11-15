@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { Text, View, StyleSheet, Modal, TextInput, TouchableOpacity } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import valorEconomizado from "../functions/valorEconomizado";
-import CompNavBar from "../../components/navbar"; // Certifique-se de ajustar o caminho corretamente
+import CompNavBar from "../../components/navbar";
 
 export default function ExibicaoValor() {
   const [tipoConsumo, setTipoConsumo] = useState(null);
@@ -12,6 +12,9 @@ export default function ExibicaoValor() {
   const [valorCigarroEletronico, setValorCigarroEletronico] = useState(0);
   const [duracaoCigarroEletronico, setDuracaoCigarroEletronico] = useState(0);
   const { valorTotalEconomizado } = valorEconomizado();
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [valorEditado, setValorEditado] = useState("");
 
   const pegarIdApoiado = async () => {
     const idapoiado = await AsyncStorage.getItem("resposta");
@@ -58,18 +61,42 @@ export default function ExibicaoValor() {
     }
   }, [tipoConsumo, valorMaco, valorCigarroEletronico, quantidadeMacos, duracaoCigarroEletronico]);
 
+  const openModal = (valorTipo) => {
+    setModalVisible(true);
+    setValorEditado(valorTipo);
+  };
+
+  const closeModal = () => {
+    setModalVisible(false);
+  };
+
+  const handleEditValue = () => {
+    if (valorEditado === valorMaco) {
+      setValorMaco(valorEditado);
+    } else if (valorEditado === valorCigarroEletronico) {
+      setValorCigarroEletronico(valorEditado);
+    } else if (valorEditado === quantidadeMacos) {
+      setQuantidadeMacos(valorEditado);
+    }
+    closeModal();
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.title}>
           Quanto você deixou de gastar com seu esforço?
         </Text>
-        <Text style={styles.subTitle}>{textoValorMedio}</Text>
-        <Text style={styles.value}>{valorMedio}</Text>
-        <Text style={styles.subTitle}>{textoUtilizadosDuracao}</Text>
-        <View style={styles.valueContainer}>
-          <Text style={styles.valueText}>{utilizadosDuracao}</Text>
-        </View>
+        <TouchableOpacity onPress={() => openModal(valorMaco)}>
+          <Text style={styles.subTitle}>{textoValorMedio}</Text>
+          <Text style={styles.value}>{valorMedio}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => openModal(quantidadeMacos)}>
+          <Text style={styles.subTitle}>{textoUtilizadosDuracao}</Text>
+          <View style={styles.valueContainer}>
+            <Text style={styles.valueText}>{utilizadosDuracao}</Text>
+          </View>
+        </TouchableOpacity>
         {tipoConsumo === "cigarro" && (
           <View style={styles.perDay}>
             <Text style={styles.perDayText}>por dia</Text>
@@ -78,6 +105,35 @@ export default function ExibicaoValor() {
         <Text style={styles.title}>Valor total economizado:</Text>
         <Text style={styles.totalValue}>R${valorTotalEconomizado}</Text>
       </View>
+
+      {/* Modal para edição */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={closeModal}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>Editar Valor</Text>
+            <TextInput
+              style={styles.input}
+              keyboardType="numeric"
+              value={String(valorEditado)}
+              onChangeText={(text) => setValorEditado(text)}
+            />
+            <View style={styles.modalButtons}>
+              <TouchableOpacity onPress={closeModal} style={styles.button}>
+                <Text style={styles.buttonText}>Cancelar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleEditValue} style={styles.button}>
+                <Text style={styles.buttonText}>Salvar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
       <CompNavBar /> {/* A NavBar ficará fixa na parte inferior da tela */}
     </View>
   );
@@ -126,7 +182,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   valueText: {
-    fontFamily: "LibreBaskerville-Bold",
+    fontFamily: "Libre Baskerville-Bold",
     fontSize: 80,
     color: "#73AA9D",
     fontWeight: "bold",
@@ -135,14 +191,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   perDayText: {
-    fontFamily: "LibreBaskerville-Bold",
-    fontWeight: "bold",
+    fontFamily: "Libre Baskerville-Bold",
     fontSize: 28,
     color: "#73AA9D",
-    marginLeft: 5,
   },
   totalValue: {
-    fontFamily: "LibreBaskerville-Bold",
+    fontFamily: "Libre Baskerville-Bold",
     fontWeight: "bold",
     color: "#73AA9D",
     fontSize: 100,
@@ -150,5 +204,47 @@ const styles = StyleSheet.create({
     marginTop: 10,
     marginLeft: 10,
     marginRight: 10,
+  },
+
+  // Estilos do Modal
+  modalContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    width: "80%",
+    backgroundColor: "white",
+    padding: 20,
+    borderRadius: 10,
+    alignItems: "center",
+  },
+  modalTitle: {
+    fontSize: 24,
+    marginBottom: 20,
+  },
+  input: {
+    width: "100%",
+    height: 40,
+    borderColor: "#ccc",
+    borderWidth: 1,
+    marginBottom: 20,
+    paddingLeft: 10,
+    fontSize: 18,
+  },
+  modalButtons: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    width: "100%",
+  },
+  button: {
+    padding: 10,
+    backgroundColor: "#73AA9D",
+    borderRadius: 5,
+  },
+  buttonText: {
+    color: "white",
+    fontSize: 18,
   },
 });

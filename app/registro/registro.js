@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { Link, useRouter } from "expo-router";
+import { MaterialIcons } from "@expo/vector-icons";
+import AntDesign from "@expo/vector-icons/AntDesign";
 import {
   Text,
   View,
@@ -43,6 +45,20 @@ export default function CompRegistro() {
 
   return (
     <View style={{ flex: 1, backgroundColor: "#73AA9D" }}>
+      <View style={{ marginTop: "5%", marginLeft: "2%" }}>
+        <Link href={"/inicial"}>
+          <Text
+            style={{
+              fontSize: 34,
+              fontFamily: "Libre Baskerville",
+              color: "white",
+            }}
+          >
+            <AntDesign name="left" size={34} color="white" />
+            Registro
+          </Text>
+        </Link>
+      </View>
       <View style={style.container}>
         <TextInput
           style={style.input}
@@ -78,9 +94,7 @@ export default function CompRegistro() {
           style={style.logoFooter}
           source={require("../../assets/imgs/logoDropVices.png")}
         />
-        <Text style={{fontFamily: "LibreBaskerville-Bold"}}>
-          DropVices
-        </Text>
+        <Text style={{ fontFamily: "LibreBaskerville-Bold" }}>DropVices</Text>
       </View>
     </View>
   );

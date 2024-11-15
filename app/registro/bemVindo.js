@@ -59,7 +59,7 @@ export default function BemVindo() {
   return (
     <View style={{ flex: 1, backgroundColor: "#73AA9D" }}>
       <View style={style.textoBemVindoDiv}>
-        <Text style={style.textoBemVindo}>Olá, bem vindo(a)!</Text>
+        <Text style={style.textoBemVindo}>Olá, bem-vindo(a)!</Text>
         <Text style={style.textoBemVindo}>
           Para começar, qual seu nome e data de nascimento?
         </Text>

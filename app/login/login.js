@@ -49,6 +49,14 @@ export default function CompLogin() {
 
   return (
     <View style={{ flex: 1, backgroundColor: "#73AA9D" }}>
+      <View style={{ marginTop: "5%", marginLeft: "2%" }}>
+        <Link href={"/inicial"}>
+          <Text style={{ fontSize: 34, fontFamily: "Libre Baskerville", color:"white" }}>
+            <AntDesign name="left" size={34} color="white" />
+            Login
+          </Text>
+        </Link>
+      </View>
       <View style={style.container}>
         <TextInput
           style={style.input}
