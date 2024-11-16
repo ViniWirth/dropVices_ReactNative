@@ -7,6 +7,8 @@ import {
   TouchableOpacity,
   Modal,
   ScrollView,
+  ActivityIndicator,
+  ImageBackground,
 } from "react-native";
 import { Link } from "expo-router";
 import style from "../../styles/style";
@@ -16,23 +18,10 @@ import valorEconomizado from "../functions/valorEconomizado";
 import CompNavBar from "../../components/navbar";
 
 export default function Home() {
-  const [fontLoaded, setFontLoaded] = useState(false);
-
-  useEffect(() => {
-    Font.loadAsync({
-      "LondrinaSolid-Black": require("../../assets/fonts/LondrinaSolid-Black.ttf"),
-    }).then(() => setFontLoaded(true));
-  }, []);
+  const [fontsLoaded, setFontsLoaded] = useState(false);
 
   const { valorTotalEconomizado } = valorEconomizado();
   const { diasSemFumar } = contarDiasSemFumar();
-
-  const [imgArvore, setImgArvore] = useState(
-    <Image
-      style={style.imgHome}
-      source={require("../../assets/imgs/etapasArvore/etapa1.png")}
-    />
-  );
 
   const frases = [
     "Continue firme! Cada dia é uma vitória.",
@@ -43,10 +32,13 @@ export default function Home() {
   ];
   const [fraseMotivacional, setFraseMotivacional] = useState(frases[0]);
 
+  const [imgArvoreSrc, setImgArvoreSrc] = useState(
+    require("../../assets/imgs/etapasArvore/etapa1.png")
+  );
+
   const [modalVisible, setModalVisible] = useState(false);
   const [modalText, setModalText] = useState("");
 
-  // Temas e textos detalhados
   const temasNicotina = [
     {
       titulo: "O que é nicotina?",
@@ -111,72 +103,94 @@ export default function Home() {
   ];
 
   useEffect(() => {
+    async function loadFonts() {
+      try {
+        await Font.loadAsync({
+          "LibreBaskerville-Regular": require("../../assets/fonts/LibreBaskerville-Regular.ttf"),
+          "LondrinaSolid-Black": require("../../assets/fonts/LondrinaSolid-Black.ttf"),
+          "LibreBaskerville-Bold": require("../../assets/fonts/LibreBaskerville-Bold.ttf"),
+        });
+        setFontsLoaded(true);
+      } catch (error) {
+        console.error("Erro ao carregar fontes: ", error);
+      }
+    }
+
+    loadFonts();
+  }, []);
+
+  useEffect(() => {
     const intervalId = setInterval(() => {
       const novaFrase = frases[Math.floor(Math.random() * frases.length)];
       setFraseMotivacional(novaFrase);
-    }, 3 * 60 * 1000);
+    }, 15 * 1000);
 
     return () => clearInterval(intervalId);
   }, []);
 
   useEffect(() => {
     if (diasSemFumar >= 8 && diasSemFumar <= 13) {
-      setImgArvore(
-        <Image
-          style={style.imgHome}
-          source={require("../../assets/imgs/etapasArvore/etapa2.png")}
-        />
-      );
+      setImgArvoreSrc(require("../../assets/imgs/etapasArvore/etapa2.png"));
     } else if (diasSemFumar >= 14 && diasSemFumar <= 29) {
-      setImgArvore(
-        <Image
-          style={style.imgHome}
-          source={require("../../assets/imgs/etapasArvore/etapa3.png")}
-        />
-      );
+      setImgArvoreSrc(require("../../assets/imgs/etapasArvore/etapa3.png"));
     } else if (diasSemFumar >= 30 && diasSemFumar <= 42) {
-      setImgArvore(
-        <Image
-          style={style.imgHome}
-          source={require("../../assets/imgs/etapasArvore/etapa4.png")}
-        />
-      );
+      setImgArvoreSrc(require("../../assets/imgs/etapasArvore/etapa4.png"));
     } else if (diasSemFumar >= 43 && diasSemFumar <= 59) {
-      setImgArvore(
-        <Image
-          style={style.imgHome}
-          source={require("../../assets/imgs/etapasArvore/etapa5.png")}
-        />
-      );
+      setImgArvoreSrc(require("../../assets/imgs/etapasArvore/etapa5.png"));
     } else if (diasSemFumar >= 60) {
-      setImgArvore(
-        <Image
-          style={{ width: 100, height: 100 }}
-          source={require("../../assets/imgs/etapasArvore/arvoreFinal.png")}
-        />
+      setImgArvoreSrc(
+        require("../../assets/imgs/etapasArvore/arvoreFinal.png")
       );
     }
   }, [diasSemFumar]);
+
+  if (!fontsLoaded) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#73AA9D" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
       <View style={styles.mainContent}>
         <View style={styles.daysContainer}>
-          <Text style={styles.daysText}>{diasSemFumar}</Text>
+          <Text
+            style={[styles.daysText, { fontFamily: "LibreBaskerville-Bold" }]}
+          >
+            {diasSemFumar}
+          </Text>
         </View>
 
         <View style={styles.economyContainer}>
-          <Link href={"/exibicaoValor"}>
-            <Text style={styles.economyText}>${valorTotalEconomizado}</Text>
-          </Link>
+          <Text
+            style={[
+              styles.economyText,
+              { fontFamily: "LibreBaskerville-Regular" },
+            ]}
+          >
+            ${valorTotalEconomizado}
+          </Text>
           <Link href={"/mostrarDias"}>
-            <View style={styles.treeContainer}>{imgArvore}</View>
+            <ImageBackground
+              style={styles.treeContainer}
+              source={imgArvoreSrc}
+              resizeMode="contain"
+            />
           </Link>
         </View>
       </View>
 
       <View style={styles.motivationalContainer}>
-        <Text style={styles.motivationalText}>{fraseMotivacional}</Text>
+        <Text
+          style={[
+            styles.motivationalText,
+            { fontFamily: "LibreBaskerville-Regular" },
+          ]}
+        >
+          {fraseMotivacional}
+        </Text>
       </View>
 
       {/* Botões sobre Nicotina */}
@@ -190,7 +204,11 @@ export default function Home() {
               setModalVisible(true);
             }}
           >
-            <Text style={styles.buttonText}>{tema.titulo}</Text>
+            <Text
+              style={[styles.buttonText, { fontFamily: "LondrinaSolid-Black" }]}
+            >
+              {tema.titulo}
+            </Text>
           </TouchableOpacity>
         ))}
       </ScrollView>
@@ -205,13 +223,27 @@ export default function Home() {
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <ScrollView>
-              <Text style={styles.modalText}>{modalText}</Text>
+              <Text
+                style={[
+                  styles.modalText,
+                  { fontFamily: "LibreBaskerville-Regular" },
+                ]}
+              >
+                {modalText}
+              </Text>
             </ScrollView>
             <TouchableOpacity
               style={styles.closeButton}
               onPress={() => setModalVisible(false)}
             >
-              <Text style={styles.closeButtonText}>Fechar</Text>
+              <Text
+                style={[
+                  styles.closeButtonText,
+                  { fontFamily: "LibreBaskerville-Regular" },
+                ]}
+              >
+                Fechar
+              </Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -223,30 +255,24 @@ export default function Home() {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  loadingContainer: {
     flex: 1,
+    backgroundColor: "#73AA9D",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  mainContent: {
-    flexDirection: "row",
-    marginTop: 20,
-  },
+  container: { flex: 1 },
+  mainContent: { flexDirection: "row", marginTop:30 },
   daysContainer: {
     width: "50%",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 50,
   },
-  daysText: {
-    fontSize: 170,
-    fontWeight: "bold",
-    color: "#73AA9D",
-    fontFamily: "LibreBaskerville-Bold",
-  },
+  daysText: { fontSize: 170, color: "#73AA9D" },
   economyContainer: {
     width: "50%",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 50,
   },
   economyText: {
     backgroundColor: "#73AA9D",
@@ -256,19 +282,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 50,
     textAlign: "center",
     borderRadius: 20,
-    fontFamily: "Libre Baskerville",
   },
   treeContainer: {
-    marginTop: 20,
+    width: 200,
+    height: 200,
   },
-  motivationalContainer: {
-    margin: 10,
-  },
-  motivationalText: {
-    fontSize: 32,
-    textAlign: "center",
-    fontFamily: "Libre Baskerville",
-  },
+  motivationalContainer: { margin: 10 },
+  motivationalText: { fontSize: 32, textAlign: "center" },
   infoContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
@@ -279,18 +299,12 @@ const styles = StyleSheet.create({
     backgroundColor: "#73AA9D",
     width: "48%",
     height: 160,
-    //height: 100,
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 10,
     borderRadius: 10,
   },
-  buttonText: {
-    color: "white",
-    textAlign: "center",
-    fontSize: 30,
-    fontFamily: "LondrinaSolid-Black",
-  },
+  buttonText: { color: "white", textAlign: "center", fontSize: 30 },
   modalContainer: {
     flex: 1,
     justifyContent: "center",
@@ -303,19 +317,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: "80%",
   },
-  modalText: {
-    fontSize: 22,
-    textAlign: "center",
-    marginBottom: 20,
-    fontFamily: "Libre Baskerville",
-  },
-  closeButton: {
-    backgroundColor: "#73AA9D",
-    padding: 10,
-    borderRadius: 5,
-  },
-  closeButtonText: {
-    color: "white",
-    fontSize: 16,
-  },
+  modalText: { fontSize: 22, textAlign: "center", marginBottom: 20 },
+  closeButton: { backgroundColor: "#73AA9D", padding: 10, borderRadius: 5 },
+  closeButtonText: { color: "white", fontSize: 16 },
 });

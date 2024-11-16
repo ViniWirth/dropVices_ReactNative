@@ -1,9 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
 import style from "../../styles/style";
+import * as Font from "expo-font";
 import { Link, useLocalSearchParams, useRouter } from "expo-router";
 
 export default function TipoConsumo() {
+  Font.loadAsync({
+    "LibreBaskerville-Regular": require("../../assets/fonts/LibreBaskerville-Regular.ttf"),
+    "LondrinaSolid-Black": require("../../assets/fonts/LondrinaSolid-Black.ttf"),
+    "LibreBaskerville-Bold": require("../../assets/fonts/LibreBaskerville-Bold.ttf"),
+  });
   const [tipoConsumo, setTipoConsumo] = useState("");
   const [navigate, setNavigate] = useState(false);
 
@@ -13,7 +19,10 @@ export default function TipoConsumo() {
   useEffect(() => {
     if (navigate) {
       router.push({
-        pathname: tipoConsumo === "cigarro" ? "registro/cigConvencional" : "registro/cigEletronico",
+        pathname:
+          tipoConsumo === "cigarro"
+            ? "registro/cigConvencional"
+            : "registro/cigEletronico",
         params: { email, senha, nome, dataNascimento, tipoConsumo },
       });
       setNavigate(false);
@@ -27,7 +36,7 @@ export default function TipoConsumo() {
           style={{
             color: "#fff",
             fontSize: 30,
-            fontFamily: "Libre Baskerville",
+            fontFamily: "LibreBaskerville-Regular",
             textAlign: "center",
           }}
         >
@@ -64,9 +73,7 @@ export default function TipoConsumo() {
           style={style.logoFooter}
           source={require("../../assets/imgs/logoDropVices.png")}
         />
-        <Text style={{ fontFamily: "Libre Baskerville", fontWeight: "bold" }}>
-          DropVices
-        </Text>
+        <Text style={{ fontFamily: "LibreBaskerville-Bold" }}>DropVices</Text>
       </View>
     </View>
   );
@@ -90,7 +97,7 @@ const styles = StyleSheet.create({
   buttonTextTipoConsumo: {
     color: "white",
     fontSize: 25,
-    fontFamily: "Libre Baskerville",
+    fontFamily: "LibreBaskerville-Regular",
     textAlign: "center",
   },
 });

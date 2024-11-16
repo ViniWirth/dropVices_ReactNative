@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useRouter } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import * as Font from "expo-font";
 import {
   Text,
   View,
@@ -13,11 +14,29 @@ import {
 import style from "../../styles/style";
 
 export default function CompRegistro() {
+  const [fontLoaded, setFontLoaded] = useState(false);
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
 
   const router = useRouter();
+
+  useEffect(() => {
+    const loadFonts = async () => {
+      await Font.loadAsync({
+        "LibreBaskerville-Regular": require("../../assets/fonts/LibreBaskerville-Regular.ttf"),
+        "LondrinaSolid-Black": require("../../assets/fonts/LondrinaSolid-Black.ttf"),
+        "LibreBaskerville-Bold": require("../../assets/fonts/LibreBaskerville-Bold.ttf"),
+      });
+      setFontLoaded(true); // Atualiza o estado quando a fonte for carregada
+    };
+
+    loadFonts();
+  }, []);
+
+  if (!fontLoaded) {
+    return <Text>Carregando fontes...</Text>;
+  }
 
   function handleRegistro() {
     const data = {
@@ -50,7 +69,7 @@ export default function CompRegistro() {
           <Text
             style={{
               fontSize: 34,
-              fontFamily: "Libre Baskerville",
+              fontFamily: "LibreBaskerville-Regular",
               color: "white",
             }}
           >

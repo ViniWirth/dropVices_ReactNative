@@ -3,6 +3,7 @@ import { View, Text } from "react-native";
 import { useRouter } from "expo-router";
 import * as Font from "expo-font";
 import CompTelaCarregamento from "../components/telaCarregamento";
+import { Image } from "react-native";
 
 export default function Index() {
   const router = useRouter();
@@ -10,13 +11,13 @@ export default function Index() {
 
   useEffect(() => {
     Font.loadAsync({
-      "Libre Baskerville": require("../assets/fonts/LibreBaskerville-Regular.ttf"),
+      "LibreBaskerville-Regular": require("../assets/fonts/LibreBaskerville-Regular.ttf"),
       "LibreBaskerville-Bold": require("../assets/fonts/LibreBaskerville-Bold.ttf"),
     }).then(() => setFontLoaded(true));
 
     const timer = setTimeout(() => {
       router.push("/inicial");
-    }, 3000);
+    }, 3000); //3000
 
     return () => clearTimeout(timer);
   }, []);
@@ -34,17 +35,7 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      {/* Fonte Regular */}
-      <Text style={{ fontFamily: "Libre Baskerville" }}>Carregando...</Text>
-      {/* Fonte Bold */}
-      <Text
-        style={{
-          fontFamily: "LibreBaskerville-Bold",
-          fontWeight: "bold",
-        }}
-      >
-        Texto em Bold
-      </Text>
+      <CompTelaCarregamento />
     </View>
   );
 }

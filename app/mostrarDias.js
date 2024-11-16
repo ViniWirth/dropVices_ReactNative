@@ -15,8 +15,14 @@ import contarDiasSemFumar from "./functions/contarDiasSemFumar";
 import { MaterialIcons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { router } from "expo-router";
+import * as Font from "expo-font";
 
 export default function mostrarDias() {
+  Font.loadAsync({
+    "LibreBaskerville-Regular": require("../assets/fonts/LibreBaskerville-Regular.ttf"),
+    "LondrinaSolid-Black": require("../assets/fonts/LondrinaSolid-Black.ttf"),
+    "LibreBaskerville-Bold": require("../assets/fonts/LibreBaskerville-Bold.ttf"),
+  });
   const [imgArvore, setImgArvore] = useState(
     <Image
       style={style.imgArvore}
@@ -84,7 +90,7 @@ export default function mostrarDias() {
       setDescricao(
         "Bem-vindo(a) a 5 etapa, você realmente tem se dedicado! Novos hábitos estão se estabelecendo em sua vida e você está  seguindo rumo a fase final para conseguir superar esse vício. Tenha orgulho de si mesmo, você está quase lá!"
       );
-    }else if (diasSemFumar >=60){
+    } else if (diasSemFumar >= 60) {
       router.push({
         pathname: "etapaFinal",
       });
@@ -95,7 +101,9 @@ export default function mostrarDias() {
     <View>
       <View style={{ marginTop: "5%", marginLeft: "2%" }}>
         <Link href={"/home"}>
-          <Text style={{ fontSize: 34, fontFamily: "Libre Baskerville" }}>
+          <Text
+            style={{ fontSize: 34, fontFamily: "LibreBaskerville-Regular" }}
+          >
             <AntDesign name="left" size={34} color="black" />
             Sua árvore
           </Text>
@@ -120,18 +128,22 @@ export default function mostrarDias() {
             <Text
               style={[
                 style.textoBorda,
-                { position: "absolute", zIndex: 1, marginLeft: "5%" },
+                { position: "absolute", zIndex: 1, marginLeft: 30 },
               ]}
             >
               Objetivo
             </Text>
-            <Text style={style.textoEmCaixa}>{objetivo}</Text>
+            <Text
+              style={[style.textoEmCaixa, { marginLeft: 40, marginRight: 40 }]}
+            >
+              {objetivo}
+            </Text>
           </View>
         </View>
       </View>
       <View
         style={{
-          marginTop: "5%",
+          marginTop: 10,
           marginRight: "24%",
           marginLeft: "32%",
           flexDirection: "row",
@@ -140,9 +152,8 @@ export default function mostrarDias() {
       >
         <Text
           style={{
-            fontFamily: "Libre Baskerville",
+            fontFamily: "LibreBaskerville-Bold",
             fontSize: 60,
-            fontWeight: "bold",
             color: "#73AA9D",
           }}
         >
@@ -151,7 +162,9 @@ export default function mostrarDias() {
         <Text style={[style.textoBorda, { alignSelf: "center" }]}>{etapa}</Text>
       </View>
       <View>
-        <Text style={[style.textoEmCaixa, { margin: 15 }]}>{descricao}</Text>
+        <Text style={[style.textoEmCaixa, { marginLeft: 20, marginRight: 20 }]}>
+          {descricao}
+        </Text>
       </View>
     </View>
   );

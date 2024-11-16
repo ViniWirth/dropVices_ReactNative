@@ -1,11 +1,42 @@
-//COMPONENTE PARA TELA DE CARREGAMENTO
+import React, { useState, useEffect } from "react";
 import { Link } from "expo-router";
-import React from "react";
-
-import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+  Text,
+  View,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
+import * as Font from "expo-font";
 import style from "../styles/style";
 
-export default function inicial() {
+export default function Inicial() {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  useEffect(() => {
+    async function loadFonts() {
+      try {
+        await Font.loadAsync({
+          "LibreBaskerville-Regular": require("../assets/fonts/LibreBaskerville-Regular.ttf"),
+          "LibreBaskerville-Bold": require("../assets/fonts/LibreBaskerville-Bold.ttf"),
+        });
+        setFontsLoaded(true);
+      } catch (error) {
+        console.error("Erro ao carregar fontes: ", error);
+      }
+    }
+    loadFonts();
+  }, []);
+
+  if (!fontsLoaded) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#ffffff" />
+      </View>
+    );
+  }
+
   return (
     <View style={{ backgroundColor: "#73AA9D", flex: 1 }}>
       <View style={style.logoCima}>
@@ -14,12 +45,10 @@ export default function inicial() {
           source={require("../assets/imgs/logoDropVices.png")}
         />
         <Text
-          style={{
-            fontSize: 40,
-            color: "#fff",
-            fontFamily: "Libre Baskerville",
-            marginTop: 3,
-          }}
+          style={[
+            styles.text,
+            fontsLoaded && { fontFamily: "LibreBaskerville-Regular" },
+          ]}
         >
           DropVices
         </Text>
@@ -37,15 +66,17 @@ export default function inicial() {
           </TouchableOpacity>
         </Link>
         <Text
-          style={{
-            color: "white",
-            fontFamily: "Libre Baskerville",
-            fontSize: 18,
-            marginTop: 20,
-          }}
+          style={[
+            styles.text,
+            { fontSize: 18, marginTop: 20 },
+            fontsLoaded && { fontFamily: "LibreBaskerville-Regular" },
+          ]}
         >
           Não tem uma conta?{" "}
-          <Link href="registro/registro" style={{ textDecorationLine: "underline" }}>
+          <Link
+            href="registro/registro"
+            style={{ textDecorationLine: "underline" }}
+          >
             Cadastre-se
           </Link>
         </Text>
@@ -53,3 +84,16 @@ export default function inicial() {
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: "#73AA9D",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  text: {
+    color: "#fff",
+    fontSize: 40,
+  },
+});

@@ -1,12 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, View, TouchableOpacity, Image, StyleSheet } from "react-native";
+import { Link } from "expo-router";
+import * as Font from "expo-font";
 import style from "../../styles/style";
-import { Link, useRouter, useLocalSearchParams } from "expo-router";
-import axios from "axios";
 
+export default function Motivo() {
+  const [fontLoaded, setFontLoaded] = useState(false);
 
-export default function motivo() {
+  useEffect(() => {
+    const loadFonts = async () => {
+      await Font.loadAsync({
+        "LibreBaskerville-Regular": require("../../assets/fonts/LibreBaskerville-Regular.ttf"),
+        "LondrinaSolid-Black": require("../../assets/fonts/LondrinaSolid-Black.ttf"),
+        "LibreBaskerville-Bold": require("../../assets/fonts/LibreBaskerville-Bold.ttf"),
+      });
+      setFontLoaded(true); // Atualiza o estado quando as fontes são carregadas
+    };
 
+    loadFonts();
+  }, []);
+
+  if (!fontLoaded) {
+    return <Text>Carregando fontes...</Text>; // Exibe enquanto as fontes não estiverem carregadas
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: "#73AA9D" }}>
@@ -15,7 +31,7 @@ export default function motivo() {
           style={{
             color: "#fff",
             fontSize: 30,
-            fontFamily: "Libre Baskerville",
+            fontFamily: "LibreBaskerville-Regular",
             textAlign: "center",
           }}
         >
@@ -24,41 +40,13 @@ export default function motivo() {
       </View>
 
       <View style={style.container}>
-        <Link href="registro/apresentArvore" asChild>
-          <TouchableOpacity style={styles.buttonMotivo}>
-            <Text style={styles.buttonTextMotivo}>Minha saúde</Text>
-          </TouchableOpacity>
-        </Link>
-
-        <Link href="registro/apresentArvore" asChild>
-          <TouchableOpacity style={styles.buttonMotivo}>
-            <Text style={styles.buttonTextMotivo}>Meu bem-estar</Text>
-          </TouchableOpacity>
-        </Link>
-
-        <Link href="registro/apresentArvore" asChild>
-          <TouchableOpacity style={styles.buttonMotivo}>
-            <Text style={styles.buttonTextMotivo}>Ciclo social</Text>
-          </TouchableOpacity>
-        </Link>
-
-        <Link href="registro/apresentArvore" asChild>
-          <TouchableOpacity style={styles.buttonMotivo}>
-            <Text style={styles.buttonTextMotivo}>Economizar dinheiro</Text>
-          </TouchableOpacity>
-        </Link>
-
-        <Link href="registro/apresentArvore" asChild>
-          <TouchableOpacity style={styles.buttonMotivo}>
-            <Text style={styles.buttonTextMotivo}>Aparência</Text>
-          </TouchableOpacity>
-        </Link>
-
-        <Link href="registro/apresentArvore" asChild>
-          <TouchableOpacity style={styles.buttonMotivo}>
-            <Text style={styles.buttonTextMotivo}>Fertilidade</Text>
-          </TouchableOpacity>
-        </Link>
+        {["Minha saúde", "Meu bem-estar", "Ciclo social", "Economizar dinheiro", "Aparência", "Fertilidade"].map((motivo, index) => (
+          <Link href="registro/apresentArvore" asChild key={index}>
+            <TouchableOpacity style={styles.buttonMotivo}>
+              <Text style={styles.buttonTextMotivo}>{motivo}</Text>
+            </TouchableOpacity>
+          </Link>
+        ))}
       </View>
 
       <View style={style.footer}>
@@ -66,9 +54,7 @@ export default function motivo() {
           style={style.logoFooter}
           source={require("../../assets/imgs/logoDropVices.png")}
         />
-        <Text style={{ fontFamily: "Libre Baskerville", fontWeight: "bold" }}>
-          DropVices
-        </Text>
+        <Text style={{ fontFamily: "LibreBaskerville-Bold" }}>DropVices</Text>
       </View>
     </View>
   );
@@ -88,16 +74,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
   buttonTextMotivo: {
     color: "white",
     fontSize: 25,
-    fontFamily: "Libre Baskerville",
+    fontFamily: "LibreBaskerville-Regular",
     textAlign: "center",
   },
 });

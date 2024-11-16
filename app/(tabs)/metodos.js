@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -9,6 +9,7 @@ import {
   Linking,
 } from "react-native";
 import CompNavBar from "../../components/navbar";
+import * as Font from "expo-font";
 
 const methods = [
   {
@@ -92,6 +93,24 @@ const Card = ({ image, text, link }) => {
 };
 
 export default function Metodos() {
+  const [fontLoaded, setFontLoaded] = useState(false);
+
+  useEffect(() => {
+    const loadFonts = async () => {
+      await Font.loadAsync({
+        "LibreBaskerville-Regular": require("../../assets/fonts/LibreBaskerville-Regular.ttf"),
+        "LibreBaskerville-Bold": require("../../assets/fonts/LibreBaskerville-Bold.ttf"),
+      });
+      setFontLoaded(true); // Atualiza o estado quando a fonte for carregada
+    };
+
+    loadFonts();
+  }, []);
+
+  if (!fontLoaded) {
+    return <Text>Carregando fontes...</Text>;
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.content}>
@@ -133,12 +152,11 @@ const styles = StyleSheet.create({
   },
   title: {
     fontFamily: "LibreBaskerville-Bold",
-    fontWeight: "bold",
     fontSize: 30,
     textAlign: "center",
   },
   subtitle: {
-    fontFamily: "Libre Baskerville",
+    fontFamily: "LibreBaskerville-Regular",
     fontSize: 21,
     textAlign: "center",
     marginHorizontal: 10,
@@ -157,10 +175,10 @@ const styles = StyleSheet.create({
   cardImage: {
     width: 80,
     height: 80,
-    borderRadius: 100, 
+    borderRadius: 100,
   },
   cardText: {
-    fontFamily: "Libre Baskerville",
+    fontFamily: "LibreBaskerville-Regular",
     fontSize: 20,
     color: "white",
     marginLeft: 10,

@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useRouter } from "expo-router";
 import { MaterialIcons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import * as Font from "expo-font";
 import {
   Text,
   View,
@@ -9,16 +10,33 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import style from "../../styles/style";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function CompLogin() {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
 
   const router = useRouter();
+
+  useEffect(() => {
+    async function loadFonts() {
+      try {
+        await Font.loadAsync({
+          "LibreBaskerville-Regular": require("../../assets/fonts/LibreBaskerville-Regular.ttf"),
+          "LibreBaskerville-Bold": require("../../assets/fonts/LibreBaskerville-Bold.ttf"),
+        });
+        setFontsLoaded(true);
+      } catch (error) {
+        console.error("Erro ao carregar fontes: ", error);
+      }
+    }
+    loadFonts();
+  }, []);
 
   async function handleLogin() {
     const data = {
@@ -47,11 +65,24 @@ export default function CompLogin() {
     }
   }
 
+  if (!fontsLoaded) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#ffffff" />
+      </View>
+    );
+  }
+
   return (
     <View style={{ flex: 1, backgroundColor: "#73AA9D" }}>
       <View style={{ marginTop: "5%", marginLeft: "2%" }}>
         <Link href={"/inicial"}>
-          <Text style={{ fontSize: 34, fontFamily: "Libre Baskerville", color:"white" }}>
+          <Text
+            style={[
+              styles.headerText,
+              fontsLoaded && { fontFamily: "LibreBaskerville-Regular" },
+            ]}
+          >
             <AntDesign name="left" size={34} color="white" />
             Login
           </Text>
@@ -83,8 +114,32 @@ export default function CompLogin() {
           style={style.logoFooter}
           source={require("../../assets/imgs/logoDropVices.png")}
         />
-        <Text style={{ fontFamily: "LibreBaskerville-Bold" }}>DropVices</Text>
+        <Text
+          style={[
+            styles.footerText,
+            fontsLoaded && { fontFamily: "LibreBaskerville-Bold" },
+          ]}
+        >
+          DropVices
+        </Text>
       </View>
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  loadingContainer: {
+    flex: 1,
+    backgroundColor: "#73AA9D",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  headerText: {
+    fontSize: 34,
+    color: "white",
+  },
+  footerText: {
+    color: "black",
+    fontSize: 16,
+  },
+});

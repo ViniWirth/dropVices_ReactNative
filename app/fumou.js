@@ -12,6 +12,7 @@ import {
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
+import * as Font from "expo-font";
 
 export default function Fumou() {
   const [nome, setNome] = useState(null);
@@ -45,7 +46,7 @@ export default function Fumou() {
           style={{
             color: "#fff",
             fontSize: 30,
-            fontFamily: "Libre Baskerville",
+            fontFamily: "LibreBaskerville-Regular",
             textAlign: "center",
             marginLeft: 40,
             marginRight: 40,
@@ -59,7 +60,7 @@ export default function Fumou() {
             marginTop: 80,
             color: "#fff",
             fontSize: 30,
-            fontFamily: "Libre Baskerville",
+            fontFamily: "LibreBaskerville-Regular",
             textAlign: "center",
             marginLeft: 40,
             marginRight: 40,
@@ -92,9 +93,7 @@ export default function Fumou() {
           style={style.logoFooter}
           source={require("../assets/imgs/logoDropVices.png")}
         />
-        <Text style={{ fontFamily: "Libre Baskerville", fontWeight: "bold" }}>
-          DropVices
-        </Text>
+        <Text style={{ fontFamily: "LibreBaskerville-Bold" }}>DropVices</Text>
       </View>
     </View>
   );

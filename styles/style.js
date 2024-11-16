@@ -41,12 +41,12 @@ export default StyleSheet.create({
     height: 50,
     backgroundColor: "#fff",
     borderRadius: 8,
-    paddingHorizontal: 10,
+    paddingHorizontal: 40,
     fontSize: 18,
     marginBottom: 25,
     borderWidth: 1,
     borderColor: "#ccc",
-    fontFamily: "Libre Baskerville",
+    fontFamily: "LibreBaskerville-Regular",
     color: "#3E3E3E",
   },
 
@@ -75,12 +75,12 @@ export default StyleSheet.create({
   textoBemVindoDiv: {
     marginLeft: "6%",
     marginRight: "6%",
-    marginTop: "20%",
+    marginTop: 30,
   },
   textoBemVindo: {
     color: "#fff",
     fontSize: 25,
-    fontFamily: "Libre Baskerville",
+    fontFamily: "LibreBaskerville-Regular",
     textAlign: "center",
   },
   garotaOi: {
@@ -120,7 +120,7 @@ export default StyleSheet.create({
   buttonTextTipoConsumo: {
     color: "white",
     fontSize: 25,
-    fontFamily: "Libre Baskerville",
+    fontFamily: "LibreBaskerville-Regular",
     textAlign: "center",
   },
 
@@ -128,7 +128,7 @@ export default StyleSheet.create({
   textoQuant: {
     color: "#fff",
     fontSize: 25,
-    fontFamily: "Libre Baskerville",
+    fontFamily: "LibreBaskerville-Regular",
     textAlign: "center",
     marginBottom: 30,
   },
@@ -138,7 +138,7 @@ export default StyleSheet.create({
     height: 350,
   },
   textoBorda: {
-    fontFamily: "Libre Baskerville",
+    fontFamily: "LibreBaskerville-Regular",
     fontSize: 24,
     color: "white",
     backgroundColor: "#73AA9D",
@@ -148,15 +148,16 @@ export default StyleSheet.create({
     textAlign: "center",
   },
   textoEmCaixa: {
-    fontFamily: "Libre Baskerville",
+    fontFamily: "LibreBaskerville-Regular",
     textAlign: "center",
-    fontSize: 18,
-    border: "1px solid #287687",
-    borderRadius: 2,
+    fontSize: 13,
+    borderWidth: 1, // Define a largura da borda
+    borderColor: "#287687", // Define a cor da borda
+    borderRadius: 2, // Adiciona bordas arredondadas
     marginTop: 35,
     padding: 10,
-    marginLeft: 30,
-    marginRight: 30,
+    color: "black", // Certifique-se de que a cor do texto é visível
+    backgroundColor: "white", // Adiciona um fundo, se necessário
   },
 
   //home
@@ -164,15 +165,6 @@ export default StyleSheet.create({
   imgHome: {
     width: 70,
     height: 100,
-  }
-  
-
-
-
-
-
-
-
-
-
+    marginTop: 10,
+  },
 });

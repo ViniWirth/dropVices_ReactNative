@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link, useRouter } from "expo-router";
+import * as Font from "expo-font";
 import {
   Text,
   View,
@@ -12,9 +13,14 @@ import style from "../../styles/style";
 import contarDiasSemFumar from "../functions/contarDiasSemFumar";
 
 export default function apresentArvore() {
+  Font.loadAsync({
+    "LibreBaskerville-Regular": require("../../assets/fonts/LibreBaskerville-Regular.ttf"),
+    "LondrinaSolid-Black": require("../../assets/fonts/LondrinaSolid-Black.ttf"),
+    "LibreBaskerville-Bold": require("../../assets/fonts/LibreBaskerville-Bold.ttf"),
+  });
   const router = useRouter();
   const { viva } = contarDiasSemFumar();
-  async function ola (){
+  async function ola() {
     router.push("/inicial");
   }
 
@@ -50,8 +56,8 @@ export default function apresentArvore() {
 
       <TouchableOpacity
         style={[style.buttonAvancar, { marginBottom: 60, width: 200 }]}
-        onPress={ async () => {
-          ola()
+        onPress={async () => {
+          ola();
         }}
       >
         <Text style={style.buttonText}>Avançar</Text>
@@ -62,7 +68,7 @@ export default function apresentArvore() {
           style={style.logoFooter}
           source={require("../../assets/imgs/logoDropVices.png")}
         />
-        <Text style={{ fontFamily: "LibreBaskerville-Bold"}}>
+        <Text style={{ fontFamily: "LibreBaskerville-Bold" }}>
           DropVices{viva}
         </Text>
       </View>

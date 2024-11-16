@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter, useLocalSearchParams } from "expo-router";
 import style from "../../styles/style";
+import * as Font from "expo-font";
 import {
   Text,
   View,
@@ -11,11 +12,29 @@ import {
 } from "react-native";
 
 export default function BemVindo() {
+  const [fontLoaded, setFontLoaded] = useState(false);
   const [nome, setNome] = useState("");
   const [dataNascimento, setDataNascimento] = useState("");
 
   const router = useRouter();
   const { email, senha } = useLocalSearchParams();
+
+  useEffect(() => {
+    const loadFonts = async () => {
+      await Font.loadAsync({
+        "LibreBaskerville-Regular": require("../../assets/fonts/LibreBaskerville-Regular.ttf"),
+        "LondrinaSolid-Black": require("../../assets/fonts/LondrinaSolid-Black.ttf"),
+        "LibreBaskerville-Bold": require("../../assets/fonts/LibreBaskerville-Bold.ttf"),
+      });
+      setFontLoaded(true); // Atualiza o estado quando as fontes forem carregadas
+    };
+
+    loadFonts();
+  }, []);
+
+  if (!fontLoaded) {
+    return <Text>Carregando fontes...</Text>; // Exibe enquanto as fontes não estiverem carregadas
+  }
 
   const handleBemVindo = () => {
     if (!nome || !dataNascimento) {
@@ -31,18 +50,17 @@ export default function BemVindo() {
   const handleDateChange = (text) => {
     const formattedText = text.replace(/[^0-9]/g, "");
 
-    let newDateNascimento;
     if (formattedText.length <= 2) {
-      newDateNascimento = formattedText;
+      setDataNascimento(formattedText);
     } else if (formattedText.length <= 4) {
-      newDateNascimento = `${formattedText.slice(0, 2)}/${formattedText.slice(2)}`;
-    } else {
-      newDateNascimento = `${formattedText.slice(0, 2)}/${formattedText.slice(2, 4)}/${formattedText.slice(4, 8)}`;
+      setDataNascimento(`${formattedText.slice(0, 2)}/${formattedText.slice(2)}`);
+    } else if (formattedText.length <= 8) {
+      setDataNascimento(
+        `${formattedText.slice(0, 2)}/${formattedText.slice(2, 4)}/${formattedText.slice(4, 8)}`
+      );
     }
 
-    // Atualiza a data no formato DD/MM/YYYY
-    setDataNascimento(newDateNascimento);
-    // Converter para o formato YYYY-MM-DD
+    // Converte para o formato YYYY-MM-DD
     if (formattedText.length === 8) {
       const day = formattedText.slice(0, 2);
       const month = formattedText.slice(2, 4);
@@ -70,14 +88,7 @@ export default function BemVindo() {
           source={require("../../assets/imgs/garotaOi.png")}
         />
       </View>
-      <View
-        style={{
-          justifyContent: "center",
-          alignItems: "center",
-          marginBottom: 50,
-          marginTop: 20,
-        }}
-      >
+      <View style={{ justifyContent: "center", alignItems: "center", marginBottom: 50, marginTop: 30 }}>
         <TextInput
           style={style.input}
           onChangeText={setNome}
@@ -106,7 +117,7 @@ export default function BemVindo() {
           style={style.logoFooter}
           source={require("../../assets/imgs/logoDropVices.png")}
         />
-        <Text style={{ fontFamily: "LibreBaskerville-Bold"}}>
+        <Text style={{ fontFamily: "LibreBaskerville-Bold" }}>
           DropVices
         </Text>
       </View>

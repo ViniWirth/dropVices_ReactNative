@@ -3,8 +3,14 @@ import { useRouter, useLocalSearchParams } from "expo-router";
 import { Text, View, TouchableOpacity, Image, TextInput } from "react-native";
 import style from "../../styles/style";
 import axios from "axios";
+import * as Font from "expo-font";
 
 export default function cigEletronico() {
+  Font.loadAsync({
+    "LibreBaskerville-Regular": require("../../assets/fonts/LibreBaskerville-Regular.ttf"),
+    "LondrinaSolid-Black": require("../../assets/fonts/LondrinaSolid-Black.ttf"),
+    "LibreBaskerville-Bold": require("../../assets/fonts/LibreBaskerville-Bold.ttf"),
+  });
   const [valorCigarroEletronico, setValorCigarroEletronico] = useState("");
   const [duracaoCigarroEletronico, setDuracaoCigarroEletronico] = useState("");
 

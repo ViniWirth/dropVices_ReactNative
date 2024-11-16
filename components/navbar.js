@@ -1,30 +1,35 @@
-//COMPONENTE PARA NAVBAR
-
 import React from "react";
-import { Link } from "expo-router";
-import { View, StyleSheet, Image } from "react-native";
+import { useRouter } from "expo-router"; // Importa o hook useRouter
+import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 
 export default function CompNavBar() {
+  const router = useRouter(); // Cria uma instância do router
+
+  // Função para navegação
+  const handleNavigation = (page) => {
+    router.push(page); // Navega para a página indicada
+  };
+
   return (
     <View style={styles.navBar}>
-      <Link href="/exibicaoValor" asChild>
+      <TouchableOpacity onPress={() => handleNavigation("/exibicaoValor")}>
         <Image
           style={styles.iconNavBar}
           source={require("../assets/imgs/buttonValores.jpg")}
         />
-      </Link>
-      <Link href="/home" asChild>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handleNavigation("/home")}>
         <Image
           style={styles.iconNavBar}
           source={require("../assets/imgs/logoDropVices.png")}
         />
-      </Link>
-      <Link href="/metodos" asChild>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() => handleNavigation("/metodos")}>
         <Image
           style={styles.iconNavBar}
           source={require("../assets/imgs/buttonMetodos.jpg")}
         />
-      </Link>
+      </TouchableOpacity>
     </View>
   );
 }

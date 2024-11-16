@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Link, useRouter, useLocalSearchParams } from "expo-router";
+import React, { useState, useEffect } from "react";
+import { useRouter, useLocalSearchParams } from "expo-router";
+import * as Font from "expo-font";
 import {
   Text,
   View,
@@ -11,14 +12,31 @@ import style from "../../styles/style";
 import axios from "axios";  
 
 export default function cigConvencional() {
+  const [fontLoaded, setFontLoaded] = useState(false);
   const [quantidadeMacos, setQuantidadeMacos] = useState("");
   const [valorMaco, setValorMaco] = useState("");
 
   const { email, senha, nome, dataNascimento, tipoConsumo } = useLocalSearchParams();
   const router = useRouter();
 
-  function inserirDadosConvencional() {
-    
+  useEffect(() => {
+    const loadFonts = async () => {
+      await Font.loadAsync({
+        "LibreBaskerville-Regular": require("../../assets/fonts/LibreBaskerville-Regular.ttf"),
+        "LondrinaSolid-Black": require("../../assets/fonts/LondrinaSolid-Black.ttf"),
+        "LibreBaskerville-Bold": require("../../assets/fonts/LibreBaskerville-Bold.ttf"),
+      });
+      setFontLoaded(true); // Atualiza o estado quando as fontes forem carregadas
+    };
+
+    loadFonts();
+  }, []);
+
+  if (!fontLoaded) {
+    return <Text>Carregando fontes...</Text>; // Exibe enquanto as fontes não estiverem carregadas
+  }
+
+  const inserirDadosConvencional = () => {
     const dados = {
       email,
       senha,
@@ -31,27 +49,15 @@ export default function cigConvencional() {
 
     console.log(dados);
 
-    if (
-      quantidadeMacos === "" ||
-      quantidadeMacos == null ||
-      valorMaco === "" ||
-      valorMaco == null
-    ) {
-      alert(
-        "Preencha todos os campos! Caso não saiba, coloque uma média aproximada."
-      );
+    if (!quantidadeMacos || !valorMaco) {
+      alert("Preencha todos os campos! Caso não saiba, coloque uma média aproximada.");
     } else {
       const ipv4 = process.env.EXPO_PUBLIC_IPV4;
-      /*axios.post(
-        "http://"+ipv4+"/usuarios/inserirDadosConvencional",
-        dados*/
-        axios.post(
-          ipv4+"/usuarios/inserirDadosConvencional",
-          dados
-      );
+      // Envia os dados via API
+      axios.post(`${ipv4}/usuarios/inserirDadosConvencional`, dados);
       router.push("registro/motivo");
     }
-  }
+  };
 
   return (
     <View
@@ -116,7 +122,7 @@ export default function cigConvencional() {
           style={style.logoFooter}
           source={require("../../assets/imgs/logoDropVices.png")}
         />
-        <Text style={{ fontFamily: "LibreBaskerville-Bold"}}>
+        <Text style={{ fontFamily: "LibreBaskerville-Bold" }}>
           DropVices
         </Text>
       </View>
