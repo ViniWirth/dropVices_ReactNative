@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link, useRouter } from "expo-router";
-import { MaterialIcons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import * as Font from "expo-font";
 import {
@@ -20,7 +19,6 @@ export default function CompLogin() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-
   const router = useRouter();
 
   useEffect(() => {
@@ -36,32 +34,68 @@ export default function CompLogin() {
       }
     }
     loadFonts();
-  }, []);
+
+    // Verificação do AsyncStorage quando o componente for montado
+    async function checkStorage() {
+      const lastVisitTime = await AsyncStorage.getItem("lastVisitTime");
+      if (lastVisitTime) {
+        const formattedLastVisitTime = new Date(lastVisitTime).toLocaleString();
+        console.log("Horário salvo no AsyncStorage:", formattedLastVisitTime);
+      } else {
+        console.log("Nenhum horário salvo no AsyncStorage.");
+      }
+    }
+
+    checkStorage();
+  }, []); // O array vazio garante que seja executado apenas uma vez, quando o componente for montado.
 
   async function handleLogin() {
     const data = {
       email,
       senha,
     };
-    console.log(data);
-    if (email == null || email == "" || senha == null || senha == "") {
+
+    if (email == null || email === "" || senha == null || senha === "") {
       alert("Preencha todos os campos!");
-    } else {
-      try {
-        const ipv4 = process.env.EXPO_PUBLIC_IPV4;
-        const resposta = await axios.post(ipv4 + "/usuarios/login", data);
+      return;
+    }
 
-        console.log("Resposta: " + resposta.data.idapoiado);
-        await AsyncStorage.setItem(
-          "resposta",
-          JSON.stringify(resposta.data.idapoiado)
-        );
+    try {
+      const ipv4 = process.env.EXPO_PUBLIC_IPV4;
+      const resposta = await axios.post(ipv4 + "/usuarios/login", data);
 
-        router.push("/home");
-      } catch (error) {
-        alert(error.response.data);
-        console.log(error);
+      console.log("Resposta: " + resposta.data.idapoiado);
+      await AsyncStorage.setItem(
+        "resposta",
+        JSON.stringify(resposta.data.idapoiado)
+      );
+
+      // Verifica o tempo desde a última visita
+      const lastVisitTime = await AsyncStorage.getItem("lastVisitTime");
+      const now = new Date();
+
+      if (!lastVisitTime) {
+        // Primeira vez: salva o horário atual
+        await AsyncStorage.setItem("lastVisitTime", now.toISOString());
+        console.log("Primeiro acesso ou sem registro de última visita");
+        router.push("/home"); // Redireciona diretamente para /home
+        return;
       }
+
+      const lastVisit = new Date(lastVisitTime);
+      const differenceInSeconds = ((now - lastVisit) / 1000) * 60 * 60;
+
+      if (differenceInSeconds > 24) {
+        console.log("Mais de 1 minuto");
+        router.push("/fumou");
+      } else {
+        console.log("Menos de 1 minuto");
+        await AsyncStorage.setItem("lastVisitTime", now.toISOString()); // Atualiza o horário atual
+        router.push("/home");
+      }
+    } catch (error) {
+      alert(error.response?.data || "Erro ao fazer login");
+      console.error(error);
     }
   }
 
