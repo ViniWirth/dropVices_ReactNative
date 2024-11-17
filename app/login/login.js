@@ -82,14 +82,13 @@ export default function CompLogin() {
         return;
       }
 
-      const lastVisit = new Date(lastVisitTime);
-      const differenceInSeconds = ((now - lastVisit) / 1000) * 60 * 60;
-
-      if (differenceInSeconds > 24) {
-        console.log("Mais de 1 minuto");
+      const lastVisit = new Date(lastVisitTime); // Corrigido para calcular a diferença em horas
+      const differenceInHours = (now - lastVisit) / (1000 * 60 * 60);
+      if (differenceInHours > 24) {
+        console.log("Mais de 24 horas");
         router.push("/fumou");
       } else {
-        console.log("Menos de 1 minuto");
+        console.log("Menos de 24 horas");
         await AsyncStorage.setItem("lastVisitTime", now.toISOString()); // Atualiza o horário atual
         router.push("/home");
       }

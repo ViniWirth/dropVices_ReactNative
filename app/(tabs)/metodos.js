@@ -7,9 +7,11 @@ import {
   FlatList,
   TouchableOpacity,
   Linking,
+  Modal,
 } from "react-native";
 import CompNavBar from "../../components/navbar";
 import * as Font from "expo-font";
+import { WebView } from "react-native-webview"; // Importa a WebView
 
 const methods = [
   {
@@ -74,26 +76,17 @@ const methods = [
   },
 ];
 
-const Card = ({ image, text, link }) => {
-  const handlePress = async () => {
-    const supported = await Linking.canOpenURL(link);
-    if (supported) {
-      await Linking.openURL(link); // Abre o link no navegador ou app associado
-    } else {
-      alert("Não foi possível abrir o link.");
-    }
-  };
-
-  return (
-    <TouchableOpacity style={styles.card} onPress={handlePress}>
-      <Image source={image} style={styles.cardImage} />
-      <Text style={styles.cardText}>{text}</Text>
-    </TouchableOpacity>
-  );
-};
+const Card = ({ image, text, link, onPress }) => (
+  <TouchableOpacity style={styles.card} onPress={() => onPress(link)}>
+    <Image source={image} style={styles.cardImage} />
+    <Text style={styles.cardText}>{text}</Text>
+  </TouchableOpacity>
+);
 
 export default function Metodos() {
   const [fontLoaded, setFontLoaded] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false); // Controle do modal
+  const [webViewLink, setWebViewLink] = useState(""); // Link para WebView
 
   useEffect(() => {
     const loadFonts = async () => {
@@ -101,11 +94,17 @@ export default function Metodos() {
         "LibreBaskerville-Regular": require("../../assets/fonts/LibreBaskerville-Regular.ttf"),
         "LibreBaskerville-Bold": require("../../assets/fonts/LibreBaskerville-Bold.ttf"),
       });
-      setFontLoaded(true); // Atualiza o estado quando a fonte for carregada
+      setFontLoaded(true);
     };
 
     loadFonts();
   }, []);
+
+  // Função para abrir o link na WebView
+  const handlePress = (link) => {
+    setWebViewLink(link);
+    setIsModalVisible(true); // Exibe o modal
+  };
 
   if (!fontLoaded) {
     return <Text>Carregando fontes...</Text>;
@@ -119,18 +118,47 @@ export default function Metodos() {
           <Text style={styles.subtitle}>
             Escolha algum método que separamos para você e que irá ajudá-lo com
             isso. Lembre-se sempre de seus objetivos!
-          </Text>
+          </Text> 
         </View>
 
         <FlatList
           data={methods}
           renderItem={({ item }) => (
-            <Card image={item.image} text={item.text} link={item.link} />
+            <Card
+              image={item.image}
+              text={item.text}
+              link={item.link}
+              onPress={handlePress}
+            />
           )}
           keyExtractor={(item) => item.id}
           contentContainerStyle={{ paddingBottom: 70 }}
         />
       </View>
+
+      {/* Modal para exibir o WebView */}
+      {isModalVisible && (
+        <Modal
+          transparent={true}
+          animationType="slide"
+          visible={isModalVisible}
+          onRequestClose={() => setIsModalVisible(false)}
+        >
+          <View style={styles.modalContainer}>
+            <WebView
+              source={{ uri: webViewLink }} // Carrega o link na WebView
+              style={styles.webview}
+            />
+            <TouchableOpacity
+              style={styles.closeButton}
+              onPress={() => setIsModalVisible(false)}
+            >
+              <Text style={styles.closeButtonText}>Fechar</Text>
+            </TouchableOpacity>
+          </View>
+        </Modal>
+      )}
+
       <CompNavBar />
     </View>
   );
@@ -184,5 +212,25 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     flexShrink: 1,
     textDecorationLine: "underline",
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: "flex-end",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  webview: {
+    flex: 1,
+    marginBottom: 60,
+  },
+  closeButton: {
+    backgroundColor: "#73AA9D",
+    padding: 15,
+    alignItems: "center",
+    borderRadius: 10,
+  },
+  closeButtonText: {
+    color: "white",
+    fontSize: 18,
+    fontFamily: "LibreBaskerville-Regular",
   },
 });

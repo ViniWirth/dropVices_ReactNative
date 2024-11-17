@@ -22,21 +22,21 @@ export default function ExibicaoValor() {
   const [duracaoCigarroEletronico, setDuracaoCigarroEletronico] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
   const [valorEditado, setValorEditado] = useState("");
+  const [campoEditado, setCampoEditado] = useState("");
 
-  const { valorTotalEconomizado = 0 } = valorEconomizado(); // Valor padrão
+  const { valorTotalEconomizado = 0 } = valorEconomizado();
 
   useEffect(() => {
-    // Carregar fontes assim que o componente for montado
     const loadFonts = async () => {
       await Font.loadAsync({
         "LibreBaskerville-Regular": require("../../assets/fonts/LibreBaskerville-Regular.ttf"),
         "LibreBaskerville-Bold": require("../../assets/fonts/LibreBaskerville-Bold.ttf"),
       });
-      setFontLoaded(true); // Atualiza o estado quando a fonte for carregada
+      setFontLoaded(true);
     };
 
     loadFonts();
-    fetchValores(); // Carregar valores assim que o componente for montado
+    fetchValores();
   }, []);
 
   const pegarIdApoiado = async () => {
@@ -63,49 +63,49 @@ export default function ExibicaoValor() {
     }
   };
 
-  const [textoValorMedio, setTextoValorMedio] = useState("Valor médio do maço:");
-  const [valorMedio, setValorMedio] = useState(`R$${valorMaco}`);
-  const [textoUtilizadosDuracao, setTextoUtilizadosDuracao] = useState("Maços utilizados:");
-  const [utilizadosDuracao, setUtilizadosDuracao] = useState(`${quantidadeMacos} maços`);
-
-  useEffect(() => {
-    if (tipoConsumo === "eletronico") {
-      setTextoValorMedio("Valor médio do cigarro eletrônico:");
-      setValorMedio(`R$${valorCigarroEletronico}`);
-      setTextoUtilizadosDuracao("Duração:");
-      setUtilizadosDuracao(`${duracaoCigarroEletronico} dias`);
-    } else {
-      setTextoValorMedio("Valor médio do maço:");
-      setValorMedio(`R$${valorMaco}`);
-      setTextoUtilizadosDuracao("Maços utilizados:");
-      setUtilizadosDuracao(`${quantidadeMacos} maços`);
-    }
-  }, [tipoConsumo, valorMaco, valorCigarroEletronico, quantidadeMacos, duracaoCigarroEletronico]);
-
-  const openModal = (valorTipo) => {
+  const openModal = (campo, valor) => {
+    setCampoEditado(campo);
+    setValorEditado(String(valor));
     setModalVisible(true);
-    setValorEditado(String(valorTipo)); // Converte para string
   };
 
   const closeModal = () => {
     setModalVisible(false);
   };
 
-  const handleEditValue = () => {
+  const handleEditValue = async () => {
     if (isNaN(parseFloat(valorEditado))) {
       alert("Por favor, insira um valor numérico válido.");
       return;
     }
-
     const newValue = parseFloat(valorEditado);
-    if (valorEditado == valorMaco) {
+    if (campoEditado === "valorMaco") {
       setValorMaco(newValue);
-    } else if (valorEditado == valorCigarroEletronico) {
-      setValorCigarroEletronico(newValue);
-    } else if (valorEditado == quantidadeMacos) {
+    } else if (campoEditado === "quantidadeMacos") {
       setQuantidadeMacos(newValue);
+    } else if (campoEditado === "valorCigarroEletronico") {
+      setValorCigarroEletronico(newValue);
+    } else if (campoEditado === "duracaoCigarroEletronico") {
+      setDuracaoCigarroEletronico(newValue);
     }
+    await atualizarValoresNoBanco(campoEditado, newValue);
     closeModal();
+  };
+
+  const atualizarValoresNoBanco = async (campo, valor) => {
+    try {
+      const ipv4 = process.env.EXPO_PUBLIC_IPV4;
+      const idapoiado = await pegarIdApoiado();
+      await axios.post(`${ipv4}/usuarios/atualizarValores`, {
+        idapoiado,
+        campo,
+        valor,
+      });
+      console.log("Valores atualizados com sucesso");
+    } catch (error) {
+      console.error("Erro ao atualizar os valores:", error);
+      alert("Não foi possível atualizar os dados. Tente novamente mais tarde.");
+    }
   };
 
   if (!fontLoaded) {
@@ -116,26 +116,39 @@ export default function ExibicaoValor() {
     <View style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.title}>Quanto você deixou de gastar com seu esforço?</Text>
-        <TouchableOpacity onPress={() => openModal(valorMaco)}>
-          <Text style={styles.subTitle}>{textoValorMedio}</Text>
-          <Text style={styles.value}>{valorMedio}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => openModal(quantidadeMacos)}>
-          <Text style={styles.subTitle}>{textoUtilizadosDuracao}</Text>
-          <View style={styles.valueContainer}>
-            <Text style={styles.valueText}>{utilizadosDuracao}</Text>
-          </View>
-        </TouchableOpacity>
+
         {tipoConsumo === "cigarro" && (
-          <View style={styles.perDay}>
-            <Text style={styles.perDayText}>por dia</Text>
-          </View>
+          <>
+            <TouchableOpacity onPress={() => openModal("valorMaco", valorMaco)}>
+              <Text style={styles.subTitle}>Valor médio do maço:</Text>
+              <Text style={styles.value}>{`R$${valorMaco}`}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => openModal("quantidadeMacos", quantidadeMacos)}>
+              <Text style={styles.subTitle}>Maços utilizados:</Text>
+              <View style={styles.valueContainer}>
+                <Text style={styles.valueText}>{`${quantidadeMacos} maços`}</Text>
+              </View>
+            </TouchableOpacity>
+          </>
         )}
+
+        {tipoConsumo === "eletronico" && (
+          <>
+            <TouchableOpacity onPress={() => openModal("valorCigarroEletronico", valorCigarroEletronico)}>
+              <Text style={styles.subTitle}>Valor médio do cigarro eletrônico:</Text>
+              <Text style={styles.value}>{`R$${valorCigarroEletronico}`}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => openModal("duracaoCigarroEletronico", duracaoCigarroEletronico)}>
+              <Text style={styles.subTitle}>Duração:</Text>
+              <Text style={styles.value}>{`${duracaoCigarroEletronico} dias`}</Text>
+            </TouchableOpacity>
+          </>
+        )}
+
         <Text style={styles.title}>Valor total economizado:</Text>
-        <Text style={styles.totalValue}>R${String(valorTotalEconomizado)}</Text>
+        <Text style={styles.totalValue}>R${valorTotalEconomizado}</Text>
       </View>
 
-      {/* Modal para edição */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -214,14 +227,6 @@ const styles = StyleSheet.create({
     fontSize: 80,
     color: "#73AA9D",
   },
-  perDay: {
-    alignItems: "center",
-  },
-  perDayText: {
-    fontFamily: "LibreBaskerville-Bold",
-    fontSize: 28,
-    color: "#73AA9D",
-  },
   totalValue: {
     fontFamily: "LibreBaskerville-Bold",
     color: "#73AA9D",
@@ -242,35 +247,36 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     padding: 20,
     borderRadius: 10,
-    alignItems: "center",
+    elevation: 5,
   },
   modalTitle: {
-    fontSize: 24,
-    marginBottom: 20,
     fontFamily: "LibreBaskerville-Bold",
+    fontSize: 24,
+    textAlign: "center",
+    marginBottom: 20,
   },
   input: {
-    width: "100%",
-    height: 40,
-    borderColor: "#ccc",
-    borderWidth: 1,
+    borderBottomWidth: 1,
+    borderBottomColor: "#ccc",
     marginBottom: 20,
-    paddingLeft: 10,
     fontSize: 18,
-    fontFamily: "LibreBaskerville-Regular",
+    padding: 5,
   },
   modalButtons: {
     flexDirection: "row",
-    justifyContent: "space-around",
-    width: "100%",
+    justifyContent: "space-between",
   },
   button: {
     padding: 10,
     backgroundColor: "#73AA9D",
     borderRadius: 5,
+    alignItems: "center",
+    flex: 1,
+    margin: 5,
   },
   buttonText: {
     color: "white",
     fontFamily: "LibreBaskerville-Bold",
+    fontSize: 18,
   },
 });

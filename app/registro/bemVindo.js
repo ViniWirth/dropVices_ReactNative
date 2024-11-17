@@ -70,10 +70,6 @@ export default function BemVindo() {
     }
   };
 
-  const dismissKeyboard = () => {
-    Keyboard.dismiss();
-  };
-
   return (
     <View style={{ flex: 1, backgroundColor: "#73AA9D" }}>
       <View style={style.textoBemVindoDiv}>
