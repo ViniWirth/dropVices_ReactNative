@@ -31,7 +31,7 @@ export default function valorEconomizado() {
 
   const fetchValores = async () => {
     try {
-      const ipv4 = process.env.EXPO_PUBLIC_IPV4;
+      const ipv4 = process.env.EXPO_PUBLIC_IPV4 || "http://localhost:3000";
       const idapoiado = await pegarIdApoiado();
       const response = await axios.get(ipv4 + "/usuarios/getValores", {
         params: { idapoiado },
@@ -51,14 +51,56 @@ export default function valorEconomizado() {
   }, []);
 
   useEffect(() => {
+    if (diasSemFumar === null || diasSemFumar === undefined) return;
+
     if (tipoConsumo === "cigarro") {
-      const valorDiario = quantidadeMacos * valorMaco;
-      const totalEconomizado = valorDiario * diasSemFumar;
-      setValorTotalEconomizado(totalEconomizado);
+      if (quantidadeMacos && valorMaco) {
+        const valorDiario = quantidadeMacos * valorMaco;
+        const totalEconomizado = valorDiario * diasSemFumar;
+        setValorTotalEconomizado(totalEconomizado);
+      } else {
+        console.error(
+          "Valores de 'quantidadeMacos' ou 'valorMaco' não definidos."
+        );
+      }
     } else if (tipoConsumo === "eletronico") {
-      // Implementar lógica para cigarro eletrônico
+      if (duracaoCigarroEletronico && valorCigarroEletronico) {
+        let totalEconomizado = 0;
+
+        if (diasSemFumar === 1) {
+          // No primeiro dia, já adiciona o valor do cigarro eletrônico
+          totalEconomizado = valorCigarroEletronico;
+        } else {
+          // Calcula o número de ciclos completos e dias restantes
+          const ciclosCompletos = Math.floor(
+            diasSemFumar / duracaoCigarroEletronico
+          );
+          const diasRestantes = diasSemFumar % duracaoCigarroEletronico;
+
+          // Adiciona o valor dos ciclos completos
+          totalEconomizado = ciclosCompletos * valorCigarroEletronico;
+
+          // Adiciona o valor do primeiro ciclo (caso seja o primeiro dia ou diasRestantes > 0)
+          if (diasRestantes > 0 || ciclosCompletos === 0) {
+            totalEconomizado += valorCigarroEletronico;
+          }
+        }
+
+        setValorTotalEconomizado(totalEconomizado);
+      } else {
+        console.error(
+          "Valores de 'duracaoCigarroEletronico' ou 'valorCigarroEletronico' não definidos."
+        );
+      }
     }
-  }, [tipoConsumo, quantidadeMacos, valorMaco, diasSemFumar]);
+  }, [
+    tipoConsumo,
+    quantidadeMacos,
+    valorMaco,
+    diasSemFumar,
+    duracaoCigarroEletronico,
+    valorCigarroEletronico,
+  ]);
 
   return { valorTotalEconomizado };
 }
