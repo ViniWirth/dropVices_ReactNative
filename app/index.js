@@ -38,9 +38,8 @@ export default function Index() {
           body: randomMessage.body,
         },
         trigger: {
-          //seconds: 8 * 60 * 60, // 8 horas em segundos
-          seconds: 10,
-          repeats: true, // A notificação se repetirá a cada 8 horas
+          seconds: 6 * 60 * 60,
+          repeats: true, // A notificação se repetirá a cada 6 horas
         },
       });
     };
