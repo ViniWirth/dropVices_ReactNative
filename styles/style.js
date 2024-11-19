@@ -37,7 +37,7 @@ export default StyleSheet.create({
 
   //input padrao
   input: {
-    width: "90%",
+    width: 300,
     height: 50,
     backgroundColor: "#fff",
     borderRadius: 8,

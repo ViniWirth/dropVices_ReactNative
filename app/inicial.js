@@ -19,7 +19,6 @@ export default function Inicial() {
       try {
         await Font.loadAsync({
           "LibreBaskerville-Regular": require("../assets/fonts/LibreBaskerville-Regular.ttf"),
-          "LibreBaskerville-Bold": require("../assets/fonts/LibreBaskerville-Bold.ttf"),
         });
         setFontsLoaded(true);
       } catch (error) {

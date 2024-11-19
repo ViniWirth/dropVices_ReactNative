@@ -83,12 +83,12 @@ export default function CompLogin() {
       }
 
       const lastVisit = new Date(lastVisitTime); // Corrigido para calcular a diferença em horas
-      const differenceInHours = (now - lastVisit) / (1000);
-      if (differenceInHours > 24) {
-        console.log("Mais de 24 horas");
+      const differenceInHours = (now - lastVisit) / (1000);//1000 * 60 * 60; // Diferença em horas
+      if (differenceInHours > 10) {//20
+        console.log("Mais de 20 horas");
         router.push("/fumou");
       } else {
-        console.log("Menos de 24 horas");
+        console.log("Menos de 20 horas");
         await AsyncStorage.setItem("lastVisitTime", now.toISOString()); // Atualiza o horário atual
         router.push("/home");
       }

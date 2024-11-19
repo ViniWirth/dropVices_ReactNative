@@ -283,7 +283,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  daysText: { fontSize: 170, color: "#73AA9D" },
+  daysText: { fontSize: 140, color: "#73AA9D" },
   economyContainer: {
     width: "50%",
     justifyContent: "center",

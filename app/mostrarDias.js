@@ -1,27 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { Link, useRouter } from "expo-router";
-import {
-  Text,
-  View,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  Image,
-} from "react-native";
+import { Link } from "expo-router";
+import { Text, View, StyleSheet, Image } from "react-native";
 import style from "../styles/style";
-import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import contarDiasSemFumar from "./functions/contarDiasSemFumar";
+import * as Font from "expo-font";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { router } from "expo-router";
-import * as Font from "expo-font";
+import contarDiasSemFumar from "./functions/contarDiasSemFumar";
 
-export default function mostrarDias() {
-  Font.loadAsync({
-    "LibreBaskerville-Regular": require("../assets/fonts/LibreBaskerville-Regular.ttf"),
-    "LondrinaSolid-Black": require("../assets/fonts/LondrinaSolid-Black.ttf"),
-    "LibreBaskerville-Bold": require("../assets/fonts/LibreBaskerville-Bold.ttf"),
-  });
+export default function MostrarDias() {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
   const [imgArvore, setImgArvore] = useState(
     <Image
       style={style.imgArvore}
@@ -39,6 +26,20 @@ export default function mostrarDias() {
   const { diasSemFumar } = contarDiasSemFumar();
   console.log("diasSemFumar: " + diasSemFumar);
 
+  // Carregar fontes
+  useEffect(() => {
+    async function loadFonts() {
+      await Font.loadAsync({
+        "LibreBaskerville-Regular": require("../assets/fonts/LibreBaskerville-Regular.ttf"),
+        "LondrinaSolid-Black": require("../assets/fonts/LondrinaSolid-Black.ttf"),
+        "LibreBaskerville-Bold": require("../assets/fonts/LibreBaskerville-Bold.ttf"),
+      });
+      setFontsLoaded(true); // Defina como true quando as fontes estiverem carregadas
+    }
+    loadFonts();
+  }, []);
+
+  // Condicional para atualizar as etapas conforme os dias sem fumar
   useEffect(() => {
     if (diasSemFumar >= 8 && diasSemFumar <= 13) {
       setImgArvore(
@@ -95,6 +96,11 @@ export default function mostrarDias() {
       });
     }
   }, [diasSemFumar]);
+
+  // Se as fontes não estiverem carregadas, renderiza uma tela de carregamento
+  if (!fontsLoaded) {
+    return <Text>Carregando fontes...</Text>;
+  }
 
   return (
     <View>
