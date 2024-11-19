@@ -150,7 +150,7 @@ export default StyleSheet.create({
   textoEmCaixa: {
     fontFamily: "LibreBaskerville-Regular",
     textAlign: "center",
-    fontSize: 13,
+    fontSize: 15,
     borderWidth: 1, // Define a largura da borda
     borderColor: "#287687", // Define a cor da borda
     borderRadius: 2, // Adiciona bordas arredondadas

@@ -12,6 +12,7 @@ import axios from "axios";
 import valorEconomizado from "../functions/valorEconomizado";
 import CompNavBar from "../../components/navbar";
 import * as Font from "expo-font";
+import { useRouter } from "expo-router";  // Importando o useRouter para navegação
 
 export default function ExibicaoValor() {
   const [fontLoaded, setFontLoaded] = useState(false);
@@ -25,6 +26,8 @@ export default function ExibicaoValor() {
   const [campoEditado, setCampoEditado] = useState("");
 
   const { valorTotalEconomizado = 0 } = valorEconomizado();
+
+  const router = useRouter(); // Usando o useRouter para navegação
 
   useEffect(() => {
     const loadFonts = async () => {
@@ -51,7 +54,13 @@ export default function ExibicaoValor() {
       const response = await axios.get(`${ipv4}/usuarios/getValores`, {
         params: { idapoiado },
       });
-      const { tipoConsumo, quantidadeMacos, valorMaco, valorCigarroEletronico, duracaoCigarroEletronico } = response.data;
+      const {
+        tipoConsumo,
+        quantidadeMacos,
+        valorMaco,
+        valorCigarroEletronico,
+        duracaoCigarroEletronico,
+      } = response.data;
       setTipoConsumo(tipoConsumo);
       setQuantidadeMacos(quantidadeMacos);
       setValorMaco(valorMaco);
@@ -78,7 +87,9 @@ export default function ExibicaoValor() {
       alert("Por favor, insira um valor numérico válido.");
       return;
     }
+
     const newValue = parseFloat(valorEditado);
+
     if (campoEditado === "valorMaco") {
       setValorMaco(newValue);
     } else if (campoEditado === "quantidadeMacos") {
@@ -88,7 +99,12 @@ export default function ExibicaoValor() {
     } else if (campoEditado === "duracaoCigarroEletronico") {
       setDuracaoCigarroEletronico(newValue);
     }
+
     await atualizarValoresNoBanco(campoEditado, newValue);
+
+    // Redireciona para a mesma página para recarregar
+    router.push("/exibicaoValor"); // Recarregando a página
+
     closeModal();
   };
 
@@ -115,7 +131,9 @@ export default function ExibicaoValor() {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>Quanto você deixou de gastar com seu esforço?</Text>
+        <Text style={styles.title}>
+          Quanto você deixou de gastar com seu esforço?
+        </Text>
 
         {tipoConsumo === "cigarro" && (
           <>
@@ -123,24 +141,43 @@ export default function ExibicaoValor() {
               <Text style={styles.subTitle}>Valor médio do maço:</Text>
               <Text style={styles.value}>{`R$${valorMaco}`}</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => openModal("quantidadeMacos", quantidadeMacos)}>
+            <TouchableOpacity
+              onPress={() =>
+                openModal("quantidadeMacos", quantidadeMacos)
+              }
+            >
               <Text style={styles.subTitle}>Maços utilizados:</Text>
               <View style={styles.valueContainer}>
-                <Text style={styles.valueText}>{`${quantidadeMacos} maços`}</Text>
+                <Text
+                  style={styles.valueText}
+                >{`${quantidadeMacos} maços`}</Text>
               </View>
+              <Text style={styles.subText}>por dia</Text>
             </TouchableOpacity>
           </>
         )}
 
         {tipoConsumo === "eletronico" && (
           <>
-            <TouchableOpacity onPress={() => openModal("valorCigarroEletronico", valorCigarroEletronico)}>
-              <Text style={styles.subTitle}>Valor médio do cigarro eletrônico:</Text>
+            <TouchableOpacity
+              onPress={() =>
+                openModal("valorCigarroEletronico", valorCigarroEletronico)
+              }
+            >
+              <Text style={styles.subTitle}>
+                Valor médio do cigarro eletrônico:
+              </Text>
               <Text style={styles.value}>{`R$${valorCigarroEletronico}`}</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => openModal("duracaoCigarroEletronico", duracaoCigarroEletronico)}>
+            <TouchableOpacity
+              onPress={() =>
+                openModal("duracaoCigarroEletronico", duracaoCigarroEletronico)
+              }
+            >
               <Text style={styles.subTitle}>Duração:</Text>
-              <Text style={styles.value}>{`${duracaoCigarroEletronico} dias`}</Text>
+              <Text
+                style={styles.value}
+              >{`${duracaoCigarroEletronico} dias`}</Text>
             </TouchableOpacity>
           </>
         )}
@@ -278,5 +315,12 @@ const styles = StyleSheet.create({
     color: "white",
     fontFamily: "LibreBaskerville-Bold",
     fontSize: 18,
+  },
+  subText: {
+    fontFamily: "LibreBaskerville-Bold",
+    fontSize: 25,
+    textAlign: "center",
+    color: "#73AA9D",
+    marginTop: 5,
   },
 });

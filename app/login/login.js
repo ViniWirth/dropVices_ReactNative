@@ -83,7 +83,7 @@ export default function CompLogin() {
       }
 
       const lastVisit = new Date(lastVisitTime); // Corrigido para calcular a diferença em horas
-      const differenceInHours = (now - lastVisit) / (1000 * 60 * 60);
+      const differenceInHours = (now - lastVisit) / (1000);
       if (differenceInHours > 24) {
         console.log("Mais de 24 horas");
         router.push("/fumou");

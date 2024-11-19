@@ -75,7 +75,7 @@ export default function BemVindo() {
       <View style={style.textoBemVindoDiv}>
         <Text style={style.textoBemVindo}>Olá, bem-vindo(a)!</Text>
         <Text style={style.textoBemVindo}>
-          Para começar, qual seu nome e data de nascimento?
+          Para começar, qual seu primeiro nome e data de nascimento?
         </Text>
       </View>
       <View style={{ justifyContent: "center", alignItems: "center" }}>

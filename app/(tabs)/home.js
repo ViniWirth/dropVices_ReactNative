@@ -16,6 +16,7 @@ import * as Font from "expo-font";
 import contarDiasSemFumar from "../functions/contarDiasSemFumar";
 import valorEconomizado from "../functions/valorEconomizado";
 import CompNavBar from "../../components/navbar";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 export default function Home() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -154,6 +155,16 @@ export default function Home() {
 
   return (
     <View style={styles.container}>
+      <View style={{ marginTop: "5%", marginLeft: "2%" }}>
+        <Link href={"/inicial"}>
+          <Text
+            style={{ fontSize: 30, fontFamily: "LibreBaskerville-Regular" }}
+          >
+            <AntDesign name="left" size={30} color="black" />
+            Sair
+          </Text>
+        </Link>
+      </View>
       <View style={styles.mainContent}>
         <View style={styles.daysContainer}>
           <Text
@@ -211,6 +222,10 @@ export default function Home() {
             </Text>
           </TouchableOpacity>
         ))}
+        <Image
+          source={require("../../assets/imgs/white.jpg")}
+          style={{ width: "100%", height: 90,}}
+        />
       </ScrollView>
 
       {/* Modal */}
@@ -262,7 +277,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   container: { flex: 1 },
-  mainContent: { flexDirection: "row", marginTop:30 },
+  mainContent: { flexDirection: "row", marginTop: 30 },
   daysContainer: {
     width: "50%",
     justifyContent: "center",
@@ -317,7 +332,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: "80%",
   },
-  modalText: { fontSize: 22, textAlign: "center", marginBottom: 20 },
+  modalText: { fontSize: 22, textAlign: "justify", marginBottom: 20 },
   closeButton: { backgroundColor: "#73AA9D", padding: 10, borderRadius: 5 },
   closeButtonText: { color: "white", fontSize: 16 },
 });

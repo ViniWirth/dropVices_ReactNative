@@ -12,7 +12,6 @@ import style from "../styles/style";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import contarDiasSemFumar from "./functions/contarDiasSemFumar";
-import { MaterialIcons } from "@expo/vector-icons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { router } from "expo-router";
 import * as Font from "expo-font";
