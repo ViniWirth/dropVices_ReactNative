@@ -1,24 +1,24 @@
 {
   "expo": {
-    "name": "Teste",
-    "slug": "Teste",
+    "name": "DropVices",
+    "slug": "DropVices",
     "scheme": "myapp",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/imgs/logoDropVices.png",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/imgs/logoDropVices.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#73AA9D"
     },
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "foregroundImage": "./assets/imgs/logoDropVices.png",
+        "backgroundColor": "#73AA9D"
       },
       "package": "dropvices.com",
       "intentFilters": [
@@ -42,7 +42,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/imgs/logoDropVices.png"
     },
     "plugins": [
       "expo-router",
